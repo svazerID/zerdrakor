@@ -1,0 +1,7 @@
+{
+  "name": "DonghuaNusa - Katalog & Streaming Donghua Sub Indo",
+  "description": "Platform katalog dan streaming serial dan film donghua berbahasa Indonesia dengan jadwal rilis, peringkat, episode player, dan watchlist.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
