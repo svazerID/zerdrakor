@@ -15,11 +15,16 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'picsum.photos',
         port: '',
-        pathname: '/**', // This allows any path under the hostname
+        pathname: '/**',
       },
+      // Live posters/trailers come from these hosts (plain <img> today, but
+      // keep the allowlist correct if the app switches to next/image).
+      { protocol: 'https', hostname: 'i.mydramalist.com', port: '', pathname: '/**' },
+      { protocol: 'https', hostname: 'v.mydramalist.com', port: '', pathname: '/**' },
     ],
   },
-  output: 'standalone',
+  // No `output: 'standalone'` here: that is for a Node server. The OpenNext
+  // Cloudflare adapter produces its own Workers bundle (see wrangler.jsonc).
   transpilePackages: ['motion'],
   webpack: (config, {dev}) => {
     // HMR is disabled in AI Studio via DISABLE_HMR env var.

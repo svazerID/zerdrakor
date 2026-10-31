@@ -1,14 +1,26 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Trophy, Star, Eye, Play } from 'lucide-react';
-import { RankingPeriod } from '@/types/donghua';
-import { getRankingsWithDrakor } from '@/lib/data/donghua-data';
+import { RankingEntry, RankingPeriod } from '@/types/donghua';
+import { fetchRankings } from '@/lib/client/live';
 import { formatViews } from '@/lib/utils';
 
 export default function RankingPage() {
   const [period, setPeriod] = useState<RankingPeriod>('weekly');
+  const [rankings, setRankings] = useState<RankingEntry[]>([]);
+  const [loadError, setLoadError] = useState('');
+
+  useEffect(() => {
+    let alive = true;
+    fetchRankings(period)
+      .then((d) => alive && setRankings(d.items))
+      .catch((e) => alive && setLoadError(e?.message || 'Gagal memuat peringkat'));
+    return () => {
+      alive = false;
+    };
+  }, [period]);
 
   const periodLabels: Record<RankingPeriod, string> = {
     daily: 'Hari Ini',
@@ -17,14 +29,15 @@ export default function RankingPage() {
     all_time: 'Sepanjang Masa',
   };
 
+  // Honest labels: the upstream source has no daily/weekly/monthly split, so
+  // each tab is a different live sort of the same recent catalogue, not a
+  // separate official chart.
   const periodDescriptions: Record<RankingPeriod, string> = {
-    daily: 'Drama Korea dengan jumlah penonton dan popularitas tertinggi dalam 24 jam terakhir.',
-    weekly: 'Top trending drakor terfavorit minggu ini pilihan para pecinta drama Korea.',
-    monthly: 'Serial drakor dengan rating pemirsa dan tayangan teratas sepanjang bulan ini.',
-    all_time: 'Mahakarya drama dan film Korea legendaris dengan rekor tayangan terbesar sepanjang masa.',
+    daily: 'Diurutkan dari pembaruan terbaru di katalog live.',
+    weekly: 'Diurutkan dari tayangan episode terbaru di katalog live.',
+    monthly: 'Diurutkan dari rating tertinggi di katalog live.',
+    all_time: 'Diurutkan dari tayangan dan rating di katalog live.',
   };
-
-  const rankings = getRankingsWithDrakor(period);
   const topThree = rankings.slice(0, 3);
   const restRankings = rankings.slice(3);
 
@@ -46,6 +59,10 @@ export default function RankingPage() {
         <p className="text-sm text-slate-400 mt-1 max-w-2xl">
           {periodDescriptions[period]}
         </p>
+        {loadError && <p className="text-sm text-rose-400 mt-2">{loadError}</p>}
+        {rankings.length === 0 && !loadError && (
+          <p className="text-sm text-slate-400 mt-2">Memuat peringkat live...</p>
+        )}
       </div>
 
       {/* Period Tabs */}

@@ -1,9 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Sparkles, Flame, Compass, ArrowRight, PlayCircle, Heart } from 'lucide-react';
-import { DRAKOR_LIST, GENRES, SCHEDULE_LIST } from '@/lib/data/donghua-data';
+import { fetchHome, type HomeData } from '@/lib/client/live';
 import { HeroSpotlight } from '@/components/hero-spotlight';
 import { DonghuaCard } from '@/components/donghua-card';
 import { SchedulePreview } from '@/components/schedule-preview';
@@ -11,13 +11,41 @@ import { RankingPreview } from '@/components/ranking-preview';
 import { ContinueWatching } from '@/components/continue-watching';
 
 export default function HomePage() {
-  const featured = DRAKOR_LIST.filter((d) => d.featured);
-  const editorPicks = DRAKOR_LIST.filter((d) => d.isEditorPick);
-  const latestUpdates = [...DRAKOR_LIST]
-    .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
-    .slice(0, 8);
+  const [data, setData] = useState<HomeData | null>(null);
+  const [error, setError] = useState('');
 
-  const movies = DRAKOR_LIST.filter((d) => d.type === 'movie');
+  useEffect(() => {
+    let alive = true;
+    fetchHome()
+      .then((d) => alive && setData(d))
+      .catch((e) => alive && setError(e?.message || 'Gagal memuat data live'));
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  if (error) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-20 text-center">
+        <h1 className="text-xl font-bold text-white mb-2">Data live belum bisa dimuat</h1>
+        <p className="text-sm text-slate-400">{error}. Coba muat ulang halaman.</p>
+      </div>
+    );
+  }
+  if (!data) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-20 text-center text-slate-400 text-sm">
+        Memuat katalog live...
+      </div>
+    );
+  }
+
+  const featured = data.featured;
+  const editorPicks = data.editorPicks;
+  const latestUpdates = data.latest;
+  const movies = data.movies;
+  const GENRES = data.genres;
+  const SCHEDULE_LIST = data.schedule;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-12">
@@ -88,11 +116,7 @@ export default function HomePage() {
       {/* 5. Split Section: Jadwal Tayang Drakor & Peringkat Populer */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         <div className="lg:col-span-7">
-          <SchedulePreview schedules={SCHEDULE_LIST.map((s) => ({
-            ...s,
-            drakor: DRAKOR_LIST.find((d) => d.id === s.drakorId),
-            donghua: DRAKOR_LIST.find((d) => d.id === s.drakorId),
-          }))} />
+          <SchedulePreview schedules={SCHEDULE_LIST} />
         </div>
         <div className="lg:col-span-5">
           <RankingPreview />

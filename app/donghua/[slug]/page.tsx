@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -19,7 +19,7 @@ import {
   Clock,
   Users,
 } from 'lucide-react';
-import { getDrakorBySlug, getRelatedDrakor } from '@/lib/data/donghua-data';
+import { fetchDetail, type DetailData } from '@/lib/client/live';
 import { useWatchlist } from '@/context/watchlist-context';
 import { DonghuaCard } from '@/components/donghua-card';
 import { formatViews } from '@/lib/utils';
@@ -27,10 +27,31 @@ import { formatViews } from '@/lib/utils';
 export default function DrakorDetailPage() {
   const params = useParams();
   const slug = params?.slug as string;
-  const drama = getDrakorBySlug(slug);
+  const [drama, setDrama] = useState<DetailData | null>(null);
+  const [notFound, setNotFound] = useState(false);
+
+  useEffect(() => {
+    let alive = true;
+    setDrama(null);
+    setNotFound(false);
+    fetchDetail(slug)
+      .then((d) => alive && setDrama(d))
+      .catch(() => alive && setNotFound(true));
+    return () => {
+      alive = false;
+    };
+  }, [slug]);
 
   const { isInWatchlist, toggleWatchlist } = useWatchlist();
   const [copiedShare, setCopiedShare] = useState(false);
+
+  if (!drama && !notFound) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-20 text-center text-slate-400 text-sm">
+        Memuat detail live...
+      </div>
+    );
+  }
 
   // 404 Not Found State
   if (!drama) {
@@ -55,7 +76,7 @@ export default function DrakorDetailPage() {
   }
 
   const inWatchlist = isInWatchlist(drama.id);
-  const relatedList = getRelatedDrakor(drama, 4);
+  const relatedList = drama.related || [];
 
   const handleShare = () => {
     if (typeof window !== 'undefined') {
@@ -256,7 +277,7 @@ export default function DrakorDetailPage() {
                     ({drama.episodes?.length || 0} episode tersedia)
                   </span>
                 </h3>
-                <span className="text-xs text-slate-400">Subtitle Indonesia HD 1080p</span>
+                <span className="text-xs text-slate-400">Subtitle Indonesia (server HD/SD/ENG dari sumber)</span>
               </div>
 
               {drama.episodes && drama.episodes.length > 0 ? (

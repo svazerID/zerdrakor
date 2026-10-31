@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { Drakor, PlaybackProgress } from '@/types/donghua';
-import { getDrakorById } from '@/lib/data/donghua-data';
 
 interface WatchlistContextType {
   watchlistIds: string[];
@@ -101,23 +100,24 @@ export function WatchlistProvider({ children }: { children: React.ReactNode }) {
     saveWatchlistToStorage([]);
   };
 
+  // Live watchlist resolution moved to the watchlist page (async fetch via
+  // /api/drakor/<id>). This synchronous helper is kept only for type
+  // compatibility and intentionally returns nothing: a synchronous lookup
+  // against a hardcoded list would resurrect placeholder data.
   const getWatchlistDrakor = (): Drakor[] => {
-    return watchlistIds
-      .map((id) => getDrakorById(id))
-      .filter((d): d is Drakor => Boolean(d));
+    return [];
   };
 
   const saveProgress = (item: Omit<PlaybackProgress, 'id' | 'updatedAt'>) => {
     const targetId = item.drakorId || item.donghuaId || '';
-    const drakor = getDrakorById(targetId);
     const updatedItem: PlaybackProgress = {
       ...item,
       drakorId: targetId,
       id: `${targetId}-${item.episodeNumber}`,
       updatedAt: new Date().toISOString(),
-      drakorTitle: drakor?.title || 'Drama Korea',
-      episodeTitle: `Episode ${item.episodeNumber}`,
-      posterUrl: drakor?.posterUrl || '',
+      drakorTitle: item.drakorTitle || 'Drama Korea',
+      episodeTitle: item.episodeTitle || `Episode ${item.episodeNumber}`,
+      posterUrl: item.posterUrl || '',
     };
 
     setHistory((prev) => {

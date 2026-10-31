@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -17,7 +17,7 @@ import {
   ArrowRight,
   Heart,
 } from 'lucide-react';
-import { getDrakorBySlug, DRAKOR_LIST } from '@/lib/data/donghua-data';
+import { fetchDetail, type DetailData } from '@/lib/client/live';
 import { VideoPlayer } from '@/components/player/video-player';
 import { useWatchlist } from '@/context/watchlist-context';
 
@@ -27,38 +27,37 @@ export default function WatchEpisodePage() {
   const episodeNumberStr = params?.episode as string;
   const currentEpisodeNumber = parseInt(episodeNumberStr, 10) || 1;
 
-  const drama = getDrakorBySlug(slug);
+  const [drama, setDrama] = useState<DetailData | null>(null);
+  const [notFound, setNotFound] = useState(false);
   const { isInWatchlist, toggleWatchlist } = useWatchlist();
 
-  // Mock comments state tailored to K-Drama fans
+  useEffect(() => {
+    let alive = true;
+    setDrama(null);
+    setNotFound(false);
+    fetchDetail(slug)
+      .then((d) => alive && setDrama(d))
+      .catch(() => alive && setNotFound(true));
+    return () => {
+      alive = false;
+    };
+  }, [slug]);
+
+  // Comments are local only (no comment backend yet): start empty, not seeded
+  // with fake users, so a fresh episode honestly shows no comments yet.
   const [commentInput, setCommentInput] = useState('');
-  const [comments, setComments] = useState([
-    {
-      id: 'c1',
-      author: 'DrakorLoversID',
-      avatarColor: 'bg-rose-600',
-      time: '1 jam lalu',
-      text: 'Chemistry kedua pemeran utama bener-bener dapet banget! Ending episode ini bikin merinding dan gak sabar nunggu episode berikutnya.',
-      likes: 38,
-    },
-    {
-      id: 'c2',
-      author: 'K-DramaAddict',
-      avatarColor: 'bg-purple-600',
-      time: '3 jam lalu',
-      text: 'OST-nya pas adegan hujan ini candu banget. Terjemahan Sub Indo di ZerDrakor pas dan enak dibaca.',
-      likes: 27,
-    },
-    {
-      id: 'c3',
-      author: 'SeoulChingu',
-      avatarColor: 'bg-pink-600',
-      time: '6 jam lalu',
-      text: 'Aktingnya luar biasa, nangis bombay nonton adegan keluarga di episode ini.',
-      likes: 19,
-    },
-  ]);
+  const [comments, setComments] = useState<
+    { id: string; author: string; avatarColor: string; time: string; text: string; likes: number }[]
+  >([]);
   const [copiedShare, setCopiedShare] = useState(false);
+
+  if (!drama && !notFound) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-20 text-center text-slate-400 text-sm">
+        Memuat episode live...
+      </div>
+    );
+  }
 
   // 404 Drama not found
   if (!drama) {
@@ -82,7 +81,9 @@ export default function WatchEpisodePage() {
     );
   }
 
-  // Find target episode or default fallback
+  // Find target episode; if the number does not exist, show the first
+  // episode's player with an empty source list (honest error state) instead
+  // of a sample video pretending to be the episode.
   const episodes = drama.episodes || [];
   const activeEpisode =
     episodes.find((e) => e.episodeNumber === currentEpisodeNumber) ||
@@ -91,18 +92,9 @@ export default function WatchEpisodePage() {
       drakorId: drama.id,
       title: `Episode ${currentEpisodeNumber}`,
       episodeNumber: currentEpisodeNumber,
-      duration: '65:00',
-      releasedAt: '2026-10-30',
-      videoSources: [
-        {
-          id: 'src-1',
-          name: 'Server VIP 1080p',
-          quality: '1080p',
-          url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-          type: 'mp4',
-          serverName: 'Direct Korean CDN',
-        },
-      ],
+      duration: '',
+      releasedAt: '',
+      videoSources: [],
     };
 
   const prevEpisode = episodes.find((e) => e.episodeNumber === currentEpisodeNumber - 1);

@@ -1,5 +1,8 @@
 node_modules/
 .next/
+tsconfig.tsbuildinfo
+.open-next/
+.wrangler/
 coverage/
 .DS_Store
 *.log

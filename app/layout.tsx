@@ -4,7 +4,10 @@ import { WatchlistProvider } from '@/context/watchlist-context';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 
-const APP_URL = process.env.APP_URL || 'https://ais-dev-axmubqedhypywogl5zklmh-484850806664.asia-east1.run.app';
+// Set APP_URL in the deployment environment (Workers dashboard variable) to
+// the real production host. The localhost fallback is only for local dev;
+// the old AI Studio URL it replaced pointed OG/canonical links at the wrong host.
+const APP_URL = process.env.APP_URL || 'http://localhost:3000';
 
 export const metadata: Metadata = {
   metadataBase: new URL(APP_URL),

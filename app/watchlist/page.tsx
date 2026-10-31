@@ -1,19 +1,33 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Bookmark, Trash2, Compass } from 'lucide-react';
 import { useWatchlist } from '@/context/watchlist-context';
+import { fetchDetail } from '@/lib/client/live';
+import type { Drakor } from '@/types/donghua';
 import { DonghuaCard } from '@/components/donghua-card';
 
 export default function WatchlistPage() {
-  const { getWatchlistDrakor, removeFromWatchlist, clearWatchlist, isLoaded } =
+  const { watchlistIds, removeFromWatchlist, clearWatchlist, isLoaded } =
     useWatchlist();
 
   const [filterStatus, setFilterStatus] = useState<'all' | 'ongoing' | 'completed'>('all');
   const [showConfirmClear, setShowConfirmClear] = useState(false);
+  const [drakorList, setDrakorList] = useState<Drakor[]>([]);
 
-  const drakorList = getWatchlistDrakor();
+  useEffect(() => {
+    if (!isLoaded) return;
+    Promise.all(
+      watchlistIds.map(async (id) => {
+        try {
+          return await fetchDetail(id);
+        } catch {
+          return null;
+        }
+      }),
+    ).then((items) => setDrakorList(items.filter((d) => Boolean(d)) as Drakor[]));
+  }, [isLoaded, watchlistIds]);
 
   const filtered = drakorList.filter((item) => {
     if (filterStatus === 'all') return true;
@@ -119,7 +133,7 @@ export default function WatchlistPage() {
       )}
 
       {/* Main Grid or Empty State */}
-      {!isLoaded ? (
+      {!isLoaded || (watchlistIds.length > 0 && drakorList.length === 0) ? (
         <div className="py-20 text-center text-slate-400 text-sm">
           Memuat watchlist drama Korea...
         </div>

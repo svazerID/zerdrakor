@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState, useMemo, Suspense } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Search, X, RefreshCw, Compass } from 'lucide-react';
-import { DRAKOR_LIST, GENRES } from '@/lib/data/donghua-data';
+import { fetchCatalog, type CatalogData } from '@/lib/client/live';
 import { DonghuaCard } from '@/components/donghua-card';
 import { DramaType, DramaStatus } from '@/types/donghua';
 
@@ -22,46 +22,31 @@ function CatalogContent() {
   const [selectedType, setSelectedType] = useState<DramaType | 'all'>(initialType);
   const [selectedStatus, setSelectedStatus] = useState<DramaStatus | 'all'>(initialStatus);
   const [sortBy, setSortBy] = useState(initialSort);
+  const [page, setPage] = useState(1);
+  const [data, setData] = useState<CatalogData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  // Filter & sort computation
-  const filteredList = useMemo(() => {
-    return DRAKOR_LIST.filter((item) => {
-      // Query filter
-      const q = searchQuery.toLowerCase().trim();
-      const matchesQuery =
-        q === '' ||
-        item.title.toLowerCase().includes(q) ||
-        item.hangulTitle.toLowerCase().includes(q) ||
-        (item.romanizedTitle && item.romanizedTitle.toLowerCase().includes(q)) ||
-        item.network.toLowerCase().includes(q) ||
-        item.cast.some((c) => c.toLowerCase().includes(q)) ||
-        item.alternativeTitles?.some((a) => a.toLowerCase().includes(q)) ||
-        item.genres.some((g) => g.toLowerCase().includes(q));
+  // Live catalog: filtering/sorting happens server-side over the full
+  // upstream catalogue, not over a hardcoded list. Search is debounced.
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setLoading(true);
+      fetchCatalog({ q: searchQuery, genre: selectedGenre, type: selectedType, status: selectedStatus, sort: sortBy, page, pageSize: 40 })
+        .then((d) => {
+          setData(d);
+          setError('');
+        })
+        .catch((e) => setError(e?.message || 'Gagal memuat katalog'))
+        .finally(() => setLoading(false));
+    }, 400);
+    return () => clearTimeout(t);
+  }, [searchQuery, selectedGenre, selectedType, selectedStatus, sortBy, page]);
 
-      // Genre filter
-      const matchesGenre =
-        selectedGenre === 'all' ||
-        item.genres.some((g) => {
-          const matched = GENRES.find((gen) => gen.slug === selectedGenre);
-          return matched ? g.toLowerCase() === matched.name.toLowerCase() : false;
-        });
-
-      // Type filter
-      const matchesType = selectedType === 'all' || item.type === selectedType;
-
-      // Status filter
-      const matchesStatus = selectedStatus === 'all' || item.status === selectedStatus;
-
-      return matchesQuery && matchesGenre && matchesType && matchesStatus;
-    }).sort((a, b) => {
-      if (sortBy === 'popular') return b.views - a.views;
-      if (sortBy === 'rating') return b.rating - a.rating;
-      if (sortBy === 'latest') return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
-      if (sortBy === 'title-asc') return a.title.localeCompare(b.title);
-      if (sortBy === 'title-desc') return b.title.localeCompare(a.title);
-      return 0;
-    });
-  }, [searchQuery, selectedGenre, selectedType, selectedStatus, sortBy]);
+  const filteredList = data?.items || [];
+  const GENRES = data?.genres || [];
+  const total = data?.total || 0;
+  const totalPages = data?.totalPages || 1;
 
   const handleResetFilters = () => {
     setSearchQuery('');
@@ -69,6 +54,7 @@ function CatalogContent() {
     setSelectedType('all');
     setSelectedStatus('all');
     setSortBy('popular');
+    setPage(1);
     router.push('/katalog');
   };
 
@@ -207,13 +193,39 @@ function CatalogContent() {
 
       {/* Results Header */}
       <div className="flex items-center justify-between mb-5 text-xs text-slate-400">
-        <span>Menampilkan {filteredList.length} judul drama Korea</span>
+        <span>
+          {loading ? 'Memuat...' : `Menampilkan ${filteredList.length} dari ${total} judul drama Korea`}
+          {error && <span className="text-rose-400 ml-2">{error}</span>}
+        </span>
         {searchQuery && (
           <span>
             Hasil untuk kata kunci: <strong className="text-rose-400">&ldquo;{searchQuery}&rdquo;</strong>
           </span>
         )}
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 mb-6 text-xs">
+          <button
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page <= 1}
+            className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-200 disabled:opacity-40"
+          >
+            Sebelumnya
+          </button>
+          <span className="text-slate-400">
+            Halaman {page} dari {totalPages}
+          </span>
+          <button
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            disabled={page >= totalPages}
+            className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-200 disabled:opacity-40"
+          >
+            Berikutnya
+          </button>
+        </div>
+      )}
 
       {/* Drakor Grid or Empty State */}
       {filteredList.length > 0 ? (

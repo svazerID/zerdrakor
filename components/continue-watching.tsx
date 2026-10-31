@@ -1,13 +1,38 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Play, Clock, Trash2, ArrowRight } from 'lucide-react';
 import { useWatchlist } from '@/context/watchlist-context';
-import { getDrakorById } from '@/lib/data/donghua-data';
+import { fetchDetail } from '@/lib/client/live';
+import type { Drakor } from '@/types/donghua';
 
 export function ContinueWatching() {
   const { history, clearHistory, isLoaded } = useWatchlist();
+  const [resolved, setResolved] = useState<Record<string, Drakor>>({});
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    const ids = [...new Set(history.map((h) => h.drakorId || h.donghuaId || '').filter(Boolean))];
+    // History stores a slug in drakorTitle? No: it stores the drama id
+    // (cat-xxxx for live titles). Resolve each via the live detail route.
+    // The player also stores drakorTitle/posterUrl on the history item, so
+    // fall back to those when a detail fetch fails.
+    Promise.all(
+      ids.map(async (id) => {
+        try {
+          const d = await fetchDetail(id);
+          return [id, d] as const;
+        } catch {
+          return null;
+        }
+      }),
+    ).then((pairs) => {
+      const map: Record<string, Drakor> = {};
+      for (const p of pairs) if (p) map[p[0]] = p[1];
+      setResolved(map);
+    });
+  }, [isLoaded, history]);
 
   if (!isLoaded || history.length === 0) return null;
 
@@ -30,7 +55,7 @@ export function ContinueWatching() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {history.slice(0, 4).map((item) => {
-          const drama = getDrakorById(item.drakorId || item.donghuaId || '');
+          const drama = resolved[item.drakorId || item.donghuaId || ''];
           if (!drama) return null;
 
           const progressPercent =

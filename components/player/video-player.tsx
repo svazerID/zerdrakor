@@ -78,6 +78,9 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
           episodeNumber: episode.episodeNumber,
           positionSeconds: Math.floor(time),
           durationSeconds: Math.floor(dur),
+          drakorTitle: donghua.title,
+          episodeTitle: episode.title,
+          posterUrl: donghua.posterUrl,
         });
       }
     }

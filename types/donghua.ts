@@ -6,7 +6,8 @@ export type RankingPeriod = 'daily' | 'weekly' | 'monthly' | 'all_time';
 export interface VideoSource {
   id: string;
   name: string;
-  quality: '1080p' | '720p' | '480p' | '360p';
+  // Live upstream sources are labelled HD / SD / ENG, not a pixel height.
+  quality: '1080p' | '720p' | '480p' | '360p' | 'HD' | 'SD' | 'ENG';
   url: string;
   type: 'mp4' | 'iframe';
   serverName: string;

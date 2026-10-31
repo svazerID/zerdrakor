@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Search, X, Film, Tv, Star, ArrowRight, Compass } from 'lucide-react';
-import { DRAKOR_LIST } from '@/lib/data/donghua-data';
+import { fetchSearch } from '@/lib/client/live';
 import { Drakor } from '@/types/donghua';
 
 interface SearchCommandPaletteProps {
@@ -15,7 +15,21 @@ export function SearchCommandPalette({ isOpen, onClose }: SearchCommandPalettePr
   const router = useRouter();
   const [query, setQuery] = useState('');
   const [selectedType, setSelectedType] = useState<'all' | 'series' | 'movie'>('all');
+  const [results, setResults] = useState<Drakor[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!query.trim()) {
+      setResults([]);
+      return;
+    }
+    const t = setTimeout(() => {
+      fetchSearch(query.trim())
+        .then((d) => setResults(d.items))
+        .catch(() => setResults([]));
+    }, 400);
+    return () => clearTimeout(t);
+  }, [query]);
 
   useEffect(() => {
     if (isOpen) {
@@ -37,20 +51,9 @@ export function SearchCommandPalette({ isOpen, onClose }: SearchCommandPalettePr
 
   if (!isOpen) return null;
 
-  const filtered = DRAKOR_LIST.filter((item) => {
-    const q = query.toLowerCase();
-    const matchQuery =
-      item.title.toLowerCase().includes(q) ||
-      item.hangulTitle.toLowerCase().includes(q) ||
-      (item.romanizedTitle && item.romanizedTitle.toLowerCase().includes(q)) ||
-      item.network.toLowerCase().includes(q) ||
-      item.genres.some((g) => g.toLowerCase().includes(q)) ||
-      item.cast.some((c) => c.toLowerCase().includes(q)) ||
-      item.alternativeTitles?.some((a) => a.toLowerCase().includes(q));
-
-    const matchType = selectedType === 'all' || item.type === selectedType;
-    return matchQuery && matchType;
-  });
+  const filtered = results.filter(
+    (item) => selectedType === 'all' || item.type === selectedType,
+  );
 
   const handleSelect = (drakor: Drakor) => {
     setQuery('');

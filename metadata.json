@@ -1,7 +1,1 @@
-{
-  "name": "DonghuaNusa - Katalog & Streaming Donghua Sub Indo",
-  "description": "Platform katalog dan streaming serial dan film donghua berbahasa Indonesia dengan jadwal rilis, peringkat, episode player, dan watchlist.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}
-
+{"description":"Platform katalog dan streaming drama Korea dan film Korea berbahasa Indonesia dengan jadwal tayang, peringkat, episode player, dan watchlist. Data live dari API upstream via route /api/* server-side.","majorCapabilities":[],"name":"ZerDrakor - Katalog & Streaming Drakor Sub Indo","requestFramePermissions":[]}

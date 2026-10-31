@@ -1,16 +1,27 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Trophy, Star, Eye, ArrowRight } from 'lucide-react';
-import { RankingPeriod } from '@/types/donghua';
-import { getRankingsWithDrakor } from '@/lib/data/donghua-data';
+import { RankingEntry, RankingPeriod } from '@/types/donghua';
+import { fetchRankings } from '@/lib/client/live';
 import { formatViews } from '@/lib/utils';
 
 export function RankingPreview() {
   const [period, setPeriod] = useState<RankingPeriod>('weekly');
+  const [allRankings, setAllRankings] = useState<RankingEntry[]>([]);
 
-  const rankings = getRankingsWithDrakor(period).slice(0, 6);
+  useEffect(() => {
+    let alive = true;
+    fetchRankings(period)
+      .then((d) => alive && setAllRankings(d.items))
+      .catch(() => alive && setAllRankings([]));
+    return () => {
+      alive = false;
+    };
+  }, [period]);
+
+  const rankings = allRankings.slice(0, 6);
 
   const periodLabels: Record<RankingPeriod, string> = {
     daily: 'Hari Ini',

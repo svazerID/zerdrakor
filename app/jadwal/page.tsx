@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Calendar, Clock, Play, AlertCircle, RefreshCw } from 'lucide-react';
-import { getScheduleWithDrakor } from '@/lib/data/donghua-data';
-import { ScheduleStatus } from '@/types/donghua';
+import { fetchSchedule } from '@/lib/client/live';
+import { ScheduleEntry, ScheduleStatus } from '@/types/donghua';
 import { getTodayWIBDay } from '@/lib/utils';
 
 const DAYS = ['Semua Hari', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'] as const;
@@ -15,7 +15,18 @@ export default function SchedulePage() {
   const [statusFilter, setStatusFilter] = useState<'all' | ScheduleStatus>('all');
   const [simulatedError, setSimulatedError] = useState(false);
 
-  const allSchedules = getScheduleWithDrakor();
+  const [allSchedules, setAllSchedules] = useState<ScheduleEntry[]>([]);
+  const [loadError, setLoadError] = useState('');
+
+  useEffect(() => {
+    let alive = true;
+    fetchSchedule()
+      .then((d) => alive && setAllSchedules(d.items))
+      .catch((e) => alive && setLoadError(e?.message || 'Gagal memuat jadwal'));
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   const filtered = allSchedules.filter((item) => {
     const matchesDay = selectedDay === 'Semua Hari' || item.dayOfWeek === selectedDay;
@@ -39,7 +50,9 @@ export default function SchedulePage() {
             Jadwal Tayang Drama Korea Mingguan
           </h1>
           <p className="text-sm text-slate-400 mt-1">
-            Jadwal siaran episode terbaru saluran tvN, SBS, JTBC, ENA, dan platform streaming
+            Jadwal live dari sumber: hanya hari tayang yang tersedia di sumber, bukan jam
+            siaran — jadi kolom waktu menampilkan hari, bukan jam pasti.
+            {loadError ? ` (${loadError})` : ''}
           </p>
         </div>
 
