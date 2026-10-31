@@ -17,8 +17,12 @@ import {
   RefreshCw,
   Tv,
   Subtitles,
-  Layers,
+
   Lightbulb,
+  X,
+  Server,
+  ExternalLink,
+  Info,
 } from 'lucide-react';
 import { Donghua, Episode, VideoSource } from '@/types/donghua';
 import { useWatchlist } from '@/context/watchlist-context';
@@ -175,10 +179,46 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
       {/* Main Player Box */}
       <div
         id="player-container"
-        className={`relative bg-black rounded-lg overflow-hidden border border-line shadow-2xl transition-all ${
+        className={`relative bg-surface rounded-2xl overflow-hidden border border-line shadow-2xl transition-all ${
           isCinemaMode ? 'relative z-50 shadow-accent/40 ring-2 ring-accent/40' : ''
         }`}
       >
+        {/* Top Header Bar ala ZerDonghua WatchModal */}
+        <div className="p-3 sm:p-4 border-b border-line bg-surface flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-8 h-8 rounded-xl bg-accent/20 border border-accent-soft/40 flex items-center justify-center text-accent-soft shrink-0">
+              <Play className="w-4 h-4 fill-accent-soft" />
+            </div>
+            <div className="min-w-0">
+              <h2 className="text-sm sm:text-base font-bold text-ink truncate">
+                {donghua.title} — Episode {episode.episodeNumber}
+              </h2>
+              <Link
+                href={`/donghua/${donghua.slug}`}
+                className="text-xs text-accent-soft hover:text-ink hover:underline flex items-center gap-1 font-semibold truncate"
+              >
+                <span>Series: {donghua.title}</span>
+                <ExternalLink className="w-3 h-3" />
+              </Link>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => setIsTheater(!isTheater)}
+              className="p-2 rounded-xl bg-line hover:bg-line-strong text-mute hover:text-ink border border-line transition-colors hidden sm:flex cursor-pointer"
+              title={isTheater ? 'Mode Standar' : 'Mode Bioskop (Lebar)'}
+            >
+              <Tv className="w-4 h-4" />
+            </button>
+            <Link
+              href={`/donghua/${donghua.slug}`}
+              className="p-2 rounded-xl bg-line hover:bg-line-strong text-mute hover:text-ink border border-line transition-colors cursor-pointer"
+              title="Tutup Player"
+            >
+              <X className="w-5 h-5" />
+            </Link>
+          </div>
+        </div>
         <div className="relative aspect-video w-full flex items-center justify-center bg-canvas">
           {!isErrorState ? (
             <video
@@ -213,6 +253,7 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
               <h3 className="text-base font-bold text-white mb-1">
                 {isSimulatedUnavailable ? 'Simulasi Server Offline' : 'Video Tidak Dapat Diputar'}
               </h3>
+              <p className="text-sm text-bad font-semibold -mt-1 mb-1">Gagal memuat video stream episode ini.</p>
               <p className="text-xs text-mute mb-4 leading-relaxed">
                 {errorMessage ||
                   'Sumber video pada server saat ini sedang mengalami gangguan atau tautan tidak tersedia. Silakan ganti ke Server Alternatif lain.'}
@@ -224,7 +265,7 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
                   className="px-3.5 py-2 rounded-lg bg-accent hover:bg-accent text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
-                  <span>Muat Ulang Video</span>
+                  <span>Coba Lagi</span>
                 </button>
                 {episode.videoSources.length > 1 && (
                   <button
@@ -245,8 +286,9 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
 
           {/* Loading Indicator */}
           {isLoading && !isErrorState && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-xs pointer-events-none">
-              <div className="w-10 h-10 border-3 border-accent border-t-transparent rounded-full animate-spin" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/40 backdrop-blur-xs pointer-events-none">
+              <div className="w-10 h-10 rounded-full border-3 border-accent-soft border-t-transparent animate-spin" />
+              <p className="text-xs text-mute font-medium">Menghubungkan ke server stream ZerDrakor...</p>
             </div>
           )}
 
@@ -376,52 +418,27 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
           )}
         </div>
 
-        {/* Video Player Sub-Bar: Server Picker, Subtitles, Episode Nav, & Simulation Toggle */}
-        <div className="bg-surface p-3.5 border-t border-line flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
-          {/* Episode Navigation */}
-          <div className="flex items-center gap-2">
-            {prevEpisode ? (
-              <Link
-                href={`/watch/${donghua.slug}/${prevEpisode.episodeNumber}`}
-                className="px-3 py-1.5 rounded-lg bg-elevated border border-line-strong/80 hover:bg-line text-sub font-medium flex items-center gap-1 transition-colors"
+        {/* Server Mirrors & Navigation Controls ala ZerDonghua WatchModal */}
+        <div className="p-3 sm:p-5 bg-surface border-t border-line space-y-4 sm:space-y-6 text-xs">
+          {/* Server Selector */}
+          <div className="space-y-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-mute uppercase tracking-wider">
+                <Server className="w-3.5 h-3.5 text-accent-soft" />
+                <span>Pilih Server ({episode.videoSources.length})</span>
+              </div>
+              <a
+                href={`/api/stream?url=${encodeURIComponent(selectedSource.url)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[11px] sm:text-xs text-accent-soft hover:text-ink flex items-center gap-1 font-semibold hover:underline"
+                title="Buka pemutar video langsung di tab terpisah"
               >
-                <ChevronLeft className="w-4 h-4" />
-                <span>Ep {prevEpisode.episodeNumber}</span>
-              </Link>
-            ) : (
-              <span className="px-3 py-1.5 rounded-lg bg-elevated/40 border border-line text-faint font-medium flex items-center gap-1 cursor-not-allowed">
-                <ChevronLeft className="w-4 h-4" />
-                <span>Ep Awal</span>
-              </span>
-            )}
-
-            <span className="font-semibold text-white px-2">
-              Episode {episode.episodeNumber}
-            </span>
-
-            {nextEpisode ? (
-              <Link
-                href={`/watch/${donghua.slug}/${nextEpisode.episodeNumber}`}
-                className="px-3 py-1.5 rounded-lg bg-accent hover:bg-accent text-white font-medium flex items-center gap-1 transition-colors"
-              >
-                <span>Ep {nextEpisode.episodeNumber}</span>
-                <ChevronRight className="w-4 h-4" />
-              </Link>
-            ) : (
-              <span className="px-3 py-1.5 rounded-lg bg-elevated/40 border border-line text-faint font-medium flex items-center gap-1 cursor-not-allowed">
-                <span>Ep Akhir</span>
-                <ChevronRight className="w-4 h-4" />
-              </span>
-            )}
-          </div>
-
-          {/* Server Switcher */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-mute font-medium flex items-center gap-1">
-              <Layers className="w-3.5 h-3.5 text-accent-soft" />
-              Server:
-            </span>
-            <div className="flex items-center gap-1 bg-elevated p-0.5 rounded-lg border border-line">
+                <span>Tab Baru</span>
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            </div>
+            <div className="flex flex-wrap gap-1.5 sm:gap-2">
               {episode.videoSources.map((source) => (
                 <button
                   key={source.id}
@@ -430,17 +447,65 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
                     setHasError(false);
                     setIsSimulatedUnavailable(false);
                   }}
-                  className={`px-2.5 py-1 rounded text-[11px] font-medium transition-all ${
+                  className={`px-2.5 sm:px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 active:scale-95 ${
                     selectedSource.id === source.id
-                      ? 'bg-accent text-white font-bold shadow-xs'
-                      : 'text-sub hover:text-white'
+                      ? 'bg-accent text-white shadow-sm border border-line-strong'
+                      : 'bg-line hover:bg-line-strong text-sub hover:text-ink border border-line'
                   }`}
                 >
-                  {source.quality} · {source.name.split(' ')[1] || 'HD'}
+                  <Play className="w-3 h-3" />
+                  <span>{source.quality} · {source.name.split(' ')[1] || 'HD'}</span>
                 </button>
               ))}
             </div>
+            <p className="text-[10px] sm:text-[11px] text-faint flex items-start gap-1.5 leading-relaxed">
+              <Info className="w-3 h-3 mt-0.5 shrink-0 text-accent-soft" />
+              <span>Jika video tidak bisa diputar atau error, silakan ganti server di atas atau klik Tab Baru.</span>
+            </p>
+          </div>
 
+          {/* Prev / Next Episode Buttons */}
+          <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-line">
+            {prevEpisode ? (
+              <Link
+                href={`/watch/${donghua.slug}/${prevEpisode.episodeNumber}`}
+                className="flex items-center gap-1 sm:gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-line hover:bg-line-strong active:scale-95 text-sub hover:text-ink text-[11px] sm:text-xs font-semibold border border-line transition-all cursor-pointer"
+              >
+                <ChevronLeft className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
+                <span>Prev Ep</span>
+              </Link>
+            ) : (
+              <span className="px-3 sm:px-4 py-2 rounded-xl bg-line/60 border border-line text-faint text-[11px] sm:text-xs font-semibold flex items-center gap-1.5 cursor-not-allowed">
+                <ChevronLeft className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
+                <span>Ep Awal</span>
+              </span>
+            )}
+
+            <Link
+              href={`/donghua/${donghua.slug}`}
+              className="flex items-center gap-1 sm:gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-accent/20 hover:bg-accent/30 active:scale-95 text-accent-soft text-[11px] sm:text-xs font-semibold border border-accent-soft/40 transition-all cursor-pointer"
+            >
+              <span>Semua Episode</span>
+            </Link>
+
+            {nextEpisode ? (
+              <Link
+                href={`/watch/${donghua.slug}/${nextEpisode.episodeNumber}`}
+                className="flex items-center gap-1 sm:gap-1.5 px-3 sm:px-4 py-2 rounded-xl bg-accent hover:scale-[1.02] active:scale-95 text-white text-[11px] sm:text-xs font-semibold shadow-sm transition-all cursor-pointer"
+              >
+                <span>Next Ep</span>
+                <ChevronRight className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
+              </Link>
+            ) : (
+              <span className="px-3 sm:px-4 py-2 rounded-xl bg-line/60 border border-line text-faint text-[11px] sm:text-xs font-semibold flex items-center gap-1.5 cursor-not-allowed">
+                <span>Ep Akhir</span>
+                <ChevronRight className="w-3.5 sm:w-4 h-3.5 sm:h-4" />
+              </span>
+            )}
+          </div>
+
+          {/* Subtitle & Simulation (fitur ZerDrakor yang dipertahankan) */}
+          <div className="flex items-center gap-2 flex-wrap pt-2 border-t border-line">
             {/* Subtitle toggle */}
             <div className="flex items-center gap-1 text-[11px] text-mute ml-2">
               <Subtitles className="w-3.5 h-3.5 text-ok" />
