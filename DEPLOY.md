@@ -4,6 +4,43 @@ Repo ini sudah siap deploy ke Workers lewat OpenNext, dengan konfigurasi
 yang di-commit (bukan auto-migrate dari dashboard — itu yang dulu bikin
 deploy ZerDonghua gagal).
 
+## Kegagalan deploy 2026-10-31 ~22:55 WIB — penyebab & perbaikan
+
+Log dashboard menunjukkan:
+
+- Build command dashboard: `npm run build` → `next build` polos → SUKSES.
+- Deploy command dashboard: `npx wrangler deploy` → wrangler mendeteksi
+  proyek OpenNext dan memanggil `opennextjs-cloudflare deploy` →
+  `ERROR Could not find compiled Open Next config, did you run the build command?`
+
+Penyebabnya sederhana: `next build` polos TIDAK menghasilkan `.open-next/`,
+sedangkan deploy OpenNext butuh output dari `opennextjs-cloudflare build`.
+
+**Perbaikannya ada di dashboard, bukan di repo — dan sudah dicoba dua
+jalan repo yang ternyata buntu, jangan diulang:**
+
+1. Mengubah script `build` di `package.json` jadi `opennextjs-cloudflare
+   build` → REKURSI TAK BERUJUNG. Adapter OpenNext di dalamnya
+   menjalankan `npm run build` lagi, jadi build memanggil dirinya sendiri
+   berulang kali sampai timeout (terbukti lokal 2026-10-31 ~23:02 WIB).
+2. `next build && opennextjs-cloudflare build --skipNextBuild` (plus
+   `output: 'standalone'`) → GAGAL dengan `ENOENT .../.next/standalone/
+   .next/server/pages-manifest.json`. Build skip OpenNext mengharapkan
+   layout standalone yang tidak dihasilkan build polos di proyek ini.
+
+Jadi satu-satunya cara yang benar: ubah perintah di dashboard Workers
+Builds jadi:
+
+- **Build command:** `npx @opennextjs/cloudflare build`
+- **Deploy command:** `npx @opennextjs/cloudflare deploy`
+  (atau biarkan `npx wrangler deploy` — wrangler otomatis mendelegasikan
+  ke deploy OpenNext, ASALKAN build command di atas sudah menghasilkan
+  `.open-next/`).
+
+Setelah perintah itu diubah, klik **Retry deployment** di dashboard.
+Perintah itu sudah diverifikasi jalan di lokal (lihat "Verifikasi lokal"
+di bawah).
+
 ## Yang sudah ada di repo
 
 - `wrangler.jsonc` — Worker `zerdrakor`, `main: .open-next/worker.js`,
@@ -22,9 +59,12 @@ deploy ZerDonghua gagal).
 
 ```bash
 npm install
-npm run build            # build Next biasa
+npm run build            # build Next polos -> .next (dipakai npm start lokal)
 npm run preview          # build OpenNext + preview di runtime Workers lokal
 npm run deploy           # build OpenNext + deploy via CLI (butuh wrangler login)
+# atau, persis seperti yang harus dipakai dashboard:
+npx @opennextjs/cloudflare build   # -> .open-next/worker.js
+npx @opennextjs/cloudflare deploy
 ```
 
 Build OpenNext lokal sudah diverifikasi: `Worker saved in .open-next/worker.js`.
