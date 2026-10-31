@@ -12,10 +12,10 @@
 //    a real /jadwal possible, and the `suggested` field from post_detail,
 //    which is what makes real "related" titles possible
 //
-// SECURITY: the upstream API key must NEVER be committed, shipped to the
-// browser, or logged. It lives only in the server environment:
-//   local:  DRAKOR_API_KEY in .env.local (gitignored)
-//   Workers: wrangler secret / dashboard variable DRAKOR_API_KEY
+// API KEY POLICY: the upstream key is public by the owner's decision, so a
+// default is baked in below — deploys (incl. Cloudflare Workers rebuilds)
+// work out of the box without setting any variable. Setting the
+// DRAKOR_API_KEY env var still overrides it if the key ever rotates.
 // Client components only ever call our /api/* routes, never this file.
 
 import type { Drakor, Episode, Genre, RankingEntry, ScheduleEntry, VideoSource } from '@/types/donghua';
@@ -25,12 +25,14 @@ const UA = 'Dalvik/7.1.12.1.0 (com.drakorku.dramakoreasubindo U; Android ; 20175
 const ACCEPT = 'application/vnd.yourapi.v1.full+json';
 const PAGE_SIZE = 20;
 
+// Key publik milik upstream (bukan rahasia) — fallback bawaan supaya
+// rebuild Workers tidak perlu set env var ulang; env override tetap menang.
+const DEFAULT_API_KEY = 'cda11y63tfI7rwln8BLeiKTvjsD5g2Mox01RzkhQCEXSGWbqYO';
+
 // ---------------------------------------------------------------- helpers
 
 function apiKey(): string {
-  const key = process.env.DRAKOR_API_KEY || '';
-  if (!key) throw new Error('DRAKOR_API_KEY is not set on the server');
-  return key;
+  return process.env.DRAKOR_API_KEY || DEFAULT_API_KEY;
 }
 
 async function upstream(path: string, params: Record<string, string | number | undefined> = {}): Promise<any> {
