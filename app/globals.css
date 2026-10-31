@@ -3,11 +3,12 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * Design system ZerDonghua ("clean-minimalism"), diterapkan ke ZerDrakor.
+ * Design system "Netflix-style" untuk ZerDrakor.
  * Setiap warna di app merujuk ke token semantik ini; nilai mentahnya
  * membalik antara :root (light) dan .dark. Tidak perlu prefix dark: —
  * toggle class .dark di <html> me-reskin seluruh app. Default app ini
- * adalah dark (html class="dark" di layout).
+ * adalah dark (html class="dark" di layout): kanvas #141414 + aksen
+ * merah Netflix #E50914, surface datar tanpa border tebal.
  */
 @theme inline {
   --color-canvas: var(--c-canvas);
@@ -30,39 +31,39 @@
 }
 
 :root {
-  --c-canvas: #fafafa;
+  --c-canvas: #f5f5f1;
   --c-surface: #ffffff;
-  --c-elevated: #f4f4f5;
-  --c-alt: #ececf0;
-  --c-ink: #18181b;
-  --c-sub: #3f3f46;
-  --c-mute: #71717a;
-  --c-faint: #a1a1aa;
+  --c-elevated: #e8e8e6;
+  --c-alt: #dedede;
+  --c-ink: #141414;
+  --c-sub: #333333;
+  --c-mute: #666666;
+  --c-faint: #999999;
   --c-line: #00000014;
   --c-line-strong: #00000026;
-  --c-accent: #6d28d9;
-  --c-accent-soft: #7c3aed;
-  --c-ok: #00873a;
-  --c-warn: #e04a00;
+  --c-accent: #c11119;
+  --c-accent-soft: #e50914;
+  --c-ok: #1a7f37;
+  --c-warn: #b81d24;
   --c-bad: #d10012;
 }
 
 .dark {
-  --c-canvas: #06060b;
-  --c-surface: #0a0c10;
-  --c-elevated: #0d1015;
-  --c-alt: #101019;
+  --c-canvas: #141414;
+  --c-surface: #181818;
+  --c-elevated: #1f1f1f;
+  --c-alt: #262626;
   --c-ink: #ffffff;
-  --c-sub: #e4e4e7;
-  --c-mute: #a1a1aa;
-  --c-faint: #71717a;
-  --c-line: #ffffff1a;
+  --c-sub: #e5e5e5;
+  --c-mute: #b3b3b3;
+  --c-faint: #808080;
+  --c-line: #ffffff12;
   --c-line-strong: #ffffff26;
-  --c-accent: #7c3aed;
-  --c-accent-soft: #a78bfa;
-  --c-ok: #00a544;
-  --c-warn: #f05100;
-  --c-bad: #e40014;
+  --c-accent: #e50914;
+  --c-accent-soft: #f6121d;
+  --c-ok: #46d369;
+  --c-warn: #ffb020;
+  --c-bad: #ea2131;
 }
 
 @layer base {
@@ -99,8 +100,17 @@
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--c-accent);
+    background: var(--c-alt);
   }
+}
+
+/* Kartu/radius ala Netflix: sudut kecil, tidak bulat tebal.
+ * .nf-fade: gradasi bawah hero melebur ke kanvas. */
+@utility nf-hero-fade {
+  background:
+    linear-gradient(to top, var(--c-canvas) 0%, transparent 55%),
+    linear-gradient(to right, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.35) 55%, transparent 100%),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, transparent 30%);
 }
 
 @utility no-scrollbar {

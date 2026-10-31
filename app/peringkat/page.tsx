@@ -66,12 +66,12 @@ export default function RankingPage() {
       </div>
 
       {/* Period Tabs */}
-      <div className="flex items-center gap-2 p-1.5 bg-[#0b101c] border border-line rounded-2xl mb-8 overflow-x-auto scrollbar-none max-w-xl">
+      <div className="flex items-center gap-2 p-1.5 bg-surface border border-line rounded-lg mb-8 overflow-x-auto scrollbar-none max-w-xl">
         {(['daily', 'weekly', 'monthly', 'all_time'] as RankingPeriod[]).map((p) => (
           <button
             key={p}
             onClick={() => setPeriod(p)}
-            className={`flex-1 py-2.5 px-4 rounded-xl text-xs sm:text-sm font-semibold transition-all text-center whitespace-nowrap ${
+            className={`flex-1 py-2.5 px-4 rounded-md text-xs sm:text-sm font-semibold transition-all text-center whitespace-nowrap ${
               period === p
                 ? 'bg-accent text-white font-bold shadow-md shadow-accent/20'
                 : 'text-mute hover:text-white hover:bg-line/40'
@@ -95,7 +95,7 @@ export default function RankingPage() {
           return (
             <div
               key={item.id}
-              className={`relative bg-[#0d1322] rounded-2xl overflow-hidden border p-5 flex flex-col justify-between transition-all group ${
+              className={`relative bg-surface rounded-lg overflow-hidden border p-5 flex flex-col justify-between transition-all group ${
                 isGold
                   ? 'border-warn/50 shadow-xl shadow-warn/10 order-first md:order-2 md:-translate-y-2'
                   : isSilver
@@ -106,7 +106,7 @@ export default function RankingPage() {
               {/* Crown & Rank Badge */}
               <div className="flex items-center justify-between mb-4">
                 <div
-                  className={`w-9 h-9 rounded-xl flex items-center justify-center font-extrabold text-sm shadow-md ${
+                  className={`w-9 h-9 rounded-md flex items-center justify-center font-extrabold text-sm shadow-md ${
                     isGold
                       ? 'bg-warn text-canvas ring-2 ring-warn'
                       : isSilver
@@ -125,7 +125,7 @@ export default function RankingPage() {
 
               {/* Poster & Main Info */}
               <div className="flex items-center gap-4 mb-4">
-                <div className="w-20 aspect-[3/4] rounded-xl overflow-hidden bg-canvas shrink-0 border border-line shadow-md">
+                <div className="w-20 aspect-[3/4] rounded-md overflow-hidden bg-canvas shrink-0 border border-line shadow-md">
                   <img
                     src={drama.posterUrl}
                     alt={drama.title}
@@ -159,7 +159,7 @@ export default function RankingPage() {
               {/* Action Button */}
               <Link
                 href={`/watch/${drama.slug}/${drama.latestEpisode || 1}`}
-                className="w-full py-2.5 rounded-xl bg-accent hover:bg-accent text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
+                className="w-full py-2.5 rounded-md bg-accent hover:bg-accent text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
               >
                 <Play className="w-3.5 h-3.5 fill-current" />
                 <span>Tonton Episode {drama.latestEpisode || 1}</span>
@@ -171,7 +171,7 @@ export default function RankingPage() {
 
       {/* Leaderboard Table for Ranks #4+ */}
       {restRankings.length > 0 && (
-        <div className="bg-[#0b101c] border border-line rounded-2xl overflow-hidden">
+        <div className="bg-surface border border-line rounded-lg overflow-hidden">
           <div className="p-4 border-b border-line flex items-center justify-between text-xs text-mute">
             <span>Posisi & Judul Drama Korea</span>
             <div className="flex items-center gap-6">

@@ -23,7 +23,7 @@ export function MobileBottomNav() {
   return (
     <>
       <nav className="fixed bottom-0 left-0 right-0 z-40 md:hidden px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-2 pointer-events-none">
-        <div className="max-w-md mx-auto pointer-events-auto rounded-3xl bg-surface/95 border border-line shadow-lg px-2 py-1.5 flex justify-around">
+        <div className="max-w-md mx-auto pointer-events-auto rounded-3xl bg-canvas/95 border border-line-strong shadow-lg px-2 py-1.5 flex justify-around">
           {items.map((item) => {
             const active = pathname === item.href;
             const Icon = item.icon;
@@ -31,7 +31,7 @@ export function MobileBottomNav() {
               <>
                 {active && <span className="absolute -top-1 w-6 h-1 rounded-full bg-accent" />}
                 <span
-                  className={`p-1 rounded-xl ${
+                  className={`p-1 rounded-md ${
                     active ? 'bg-accent/20' : 'group-hover:bg-line'
                   }`}
                 >
@@ -45,7 +45,7 @@ export function MobileBottomNav() {
                 ) : null}
               </>
             );
-            const cls = `group relative flex-1 flex flex-col items-center py-1.5 px-2 rounded-2xl active:scale-95 transition-all ${
+            const cls = `group relative flex-1 flex flex-col items-center py-1.5 px-2 rounded-lg active:scale-95 transition-all ${
               active ? 'text-accent-soft font-bold' : 'text-mute hover:text-ink'
             }`;
             return item.action ? (

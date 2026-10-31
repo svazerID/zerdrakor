@@ -66,7 +66,7 @@ export function ContinueWatching() {
           return (
             <div
               key={item.id}
-              className="group bg-elevated/60 border border-line rounded-xl overflow-hidden hover:border-accent-soft/40 transition-all flex flex-col"
+              className="group bg-surface rounded-md overflow-hidden transition-all flex flex-col hover:bg-alt"
             >
               <div className="relative aspect-video w-full bg-canvas overflow-hidden">
                 <img
@@ -112,7 +112,7 @@ export function ContinueWatching() {
 
                 <Link
                   href={`/watch/${drama.slug}/${item.episodeNumber}`}
-                  className="mt-3 flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-line hover:bg-accent hover:text-white text-xs font-semibold text-sub transition-colors"
+                  className="mt-3 flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-md bg-elevated hover:bg-accent hover:text-white text-xs font-semibold text-sub transition-colors"
                 >
                   <span>Putar Sekarang</span>
                   <ArrowRight className="w-3.5 h-3.5" />

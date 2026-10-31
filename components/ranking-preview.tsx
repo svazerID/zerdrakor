@@ -31,11 +31,11 @@ export function RankingPreview() {
   };
 
   return (
-    <div className="w-full bg-[#0d1322] border border-line/80 rounded-2xl p-5 sm:p-6 shadow-sm">
+    <div className="w-full bg-surface rounded-lg p-5 sm:p-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-lg bg-warn/70 text-warn border border-warn/50">
+          <div className="p-2 rounded-md bg-warn/15 text-warn border border-warn/40">
             <Trophy className="w-4 h-4" />
           </div>
           <div>
@@ -54,7 +54,7 @@ export function RankingPreview() {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-1.5 p-1 bg-elevated/90 rounded-xl border border-line mb-5 overflow-x-auto scrollbar-none">
+      <div className="flex items-center gap-1.5 p-1 bg-elevated/90 rounded-md border border-line mb-5 overflow-x-auto scrollbar-none">
         {(['daily', 'weekly', 'monthly', 'all_time'] as RankingPeriod[]).map((p) => (
           <button
             key={p}
@@ -80,7 +80,7 @@ export function RankingPreview() {
             <Link
               key={item.id}
               href={`/donghua/${drama.slug}`}
-              className="flex items-center justify-between py-2.5 px-2 rounded-xl hover:bg-elevated/80 transition-colors group"
+              className="flex items-center justify-between py-2.5 px-2 rounded-md hover:bg-elevated/80 transition-colors group"
             >
               <div className="flex items-center gap-3.5 min-w-0">
                 {/* Rank Badge */}

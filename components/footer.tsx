@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
-import { Heart, ShieldCheck } from 'lucide-react';
+import { Heart, ShieldCheck, Play } from 'lucide-react';
 
-// Footer ala ZerDonghua: bg-canvas, border-line, grid 4 kolom,
-// brand span 2, heading uppercase kecil, bottom bar text-faint.
+// Footer ala Netflix: kanvas datar tanpa garis pembatas, wordmark merah,
+// link abu redup yang menyala saat hover, heading abu kecil uppercase.
 export function Footer() {
   const genres = [
     { label: 'Romance', href: '/katalog?genre=romance' },
@@ -13,23 +13,16 @@ export function Footer() {
     { label: 'Film Korea (K-Movie)', href: '/katalog?type=movie' },
   ];
   return (
-    <footer className="mt-16 border-t border-line bg-canvas text-mute pt-12 pb-24 md:pb-12 px-3 sm:px-6">
+    <footer className="mt-16 bg-canvas text-mute pt-12 pb-24 md:pb-12 px-3 sm:px-6">
       <div className="max-w-7xl mx-auto space-y-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2 space-y-3">
-            <Link href="/" className="flex items-center gap-2.5">
-              <span className="w-12 h-12 rounded-2xl bg-accent p-[1.5px] shadow-sm flex items-center justify-center">
-                <span className="w-full h-full bg-surface rounded-[14px] flex items-center justify-center">
-                  <img
-                    src="/zerdrakor_icon.jpg"
-                    alt="ZerDrakor Icon"
-                    className="w-full h-full object-contain p-1.5 rounded-[14px]"
-                  />
-                </span>
+            <Link href="/" className="flex items-center gap-2">
+              <span className="w-9 h-9 rounded-md bg-accent flex items-center justify-center">
+                <Play className="w-4 h-4 fill-white text-white" />
               </span>
-              <span className="text-2xl font-black tracking-tight leading-none">
-                <span className="text-ink">ZER</span>
-                <span className="text-accent-soft">DRAKOR</span>
+              <span className="text-2xl font-black tracking-tighter leading-none text-accent">
+                ZERDRAKOR
               </span>
             </Link>
             <p className="text-xs sm:text-sm text-mute max-w-md leading-relaxed">
@@ -44,7 +37,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-ink mb-3">Navigasi Utama</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-sub mb-3">Navigasi Utama</h4>
             <ul className="space-y-2 text-xs">
               {[
                 { label: 'Beranda', href: '/' },
@@ -54,7 +47,7 @@ export function Footer() {
                 { label: 'Daftar Tontonan (Watchlist)', href: '/watchlist' },
               ].map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="hover:text-accent-soft transition-colors">
+                  <Link href={l.href} className="text-faint hover:text-sub transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -63,13 +56,13 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-ink mb-3">Genre Drakor Pilihan</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-sub mb-3">Genre Drakor Pilihan</h4>
             <div className="flex flex-wrap gap-2">
               {genres.map((g) => (
                 <Link
                   key={g.href}
                   href={g.href}
-                  className="text-[11px] px-2 py-1 rounded-lg bg-line hover:bg-accent/20 text-sub hover:text-accent-soft transition-colors"
+                  className="text-[11px] px-2 py-1 rounded-sm bg-elevated hover:bg-alt text-faint hover:text-sub transition-colors"
                 >
                   {g.label}
                 </Link>
@@ -78,10 +71,10 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="pt-6 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-faint">
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-faint">
           <p>© {new Date().getFullYear()} ZerDrakor. Semua hak cipta drama dan poster milik jaringan TV masing-masing.</p>
           <p className="flex items-center gap-1">
-            Dibuat dengan <Heart className="w-3 h-3 text-warn fill-warn" /> untuk pecinta drama Korea Indonesia
+            Dibuat dengan <Heart className="w-3 h-3 text-accent fill-accent" /> untuk pecinta drama Korea Indonesia
           </p>
         </div>
       </div>

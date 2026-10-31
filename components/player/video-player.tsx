@@ -175,11 +175,11 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
       {/* Main Player Box */}
       <div
         id="player-container"
-        className={`relative bg-black rounded-2xl overflow-hidden border border-line shadow-2xl transition-all ${
+        className={`relative bg-black rounded-lg overflow-hidden border border-line shadow-2xl transition-all ${
           isCinemaMode ? 'relative z-50 shadow-accent/40 ring-2 ring-accent/40' : ''
         }`}
       >
-        <div className="relative aspect-video w-full flex items-center justify-center bg-[#05070c]">
+        <div className="relative aspect-video w-full flex items-center justify-center bg-canvas">
           {!isErrorState ? (
             <video
               ref={videoRef}
@@ -377,7 +377,7 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
         </div>
 
         {/* Video Player Sub-Bar: Server Picker, Subtitles, Episode Nav, & Simulation Toggle */}
-        <div className="bg-[#0b101c] p-3.5 border-t border-line flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
+        <div className="bg-surface p-3.5 border-t border-line flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
           {/* Episode Navigation */}
           <div className="flex items-center gap-2">
             {prevEpisode ? (

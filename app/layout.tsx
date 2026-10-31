@@ -51,9 +51,9 @@ export const metadata: Metadata = {
   creator: 'ZerDrakor',
   publisher: 'ZerDrakor',
   icons: {
-    icon: '/zerdrakor_icon.jpg',
-    shortcut: '/zerdrakor_icon.jpg',
-    apple: '/zerdrakor_icon.jpg',
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
   },
   openGraph: {
     title: 'ZerDrakor – Nonton & Streaming Drama Korea Sub Indo Gratis',
@@ -110,38 +110,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id" className="dark">
       <head>
-        {/* Favicon & Web Icons */}
-        <link rel="icon" type="image/jpeg" href="/zerdrakor_icon.jpg" />
-        <link rel="apple-touch-icon" href="/zerdrakor_icon.jpg" />
-
-        {/* Primary Open Graph Meta Tags (Facebook, WhatsApp, LinkedIn, Discord) */}
-        <meta property="og:site_name" content="ZerDrakor" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="ZerDrakor – Nonton & Streaming Drama Korea Sub Indo Gratis" />
-        <meta
-          property="og:description"
-          content="Streaming drama Korea (Drakor) dan K-Movie terlengkap subtitle Indonesia resmi. Server cepat HD 1080p, jadwal tayang mingguan, dan watchlist gratis."
-        />
-        <meta property="og:image" content={`${APP_URL}/zerdrakor_og_preview.jpg`} />
-        <meta property="og:image:secure_url" content={`${APP_URL}/zerdrakor_og_preview.jpg`} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:image:alt" content="ZerDrakor - Nonton & Streaming Drama Korea Subtitle Indonesia" />
-        <meta property="og:locale" content="id_ID" />
-
-        {/* Twitter Cards (X/Twitter) */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="ZerDrakor – Nonton & Streaming Drama Korea Sub Indo Gratis" />
-        <meta
-          name="twitter:description"
-          content="Streaming drama Korea dan film bioskop Korea terbaru dengan subtitle Indonesia resmi, update episode tercepat, dan bebas iklan mengganggu."
-        />
-        <meta name="twitter:image" content={`${APP_URL}/zerdrakor_og_preview.jpg`} />
-        <meta name="twitter:image:alt" content="ZerDrakor - Nonton & Streaming Drama Korea Subtitle Indonesia" />
-        <meta name="twitter:creator" content="@ZerDrakor" />
-        <meta name="twitter:site" content="@ZerDrakor" />
-
-        {/* Schema.org Structured Data (JSON-LD) for Search Rich Snippets */}
+        {/* Favicon, OG, dan Twitter Cards semuanya di-render oleh metadata
+         * API Next.js (export metadata di file ini + layout per-rute) —
+     * tidak ada <meta>/<link> manual di sini supaya tidak duplikat.
+     * Yang tersisa di head hanyalah structured data JSON-LD. */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

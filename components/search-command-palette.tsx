@@ -69,7 +69,7 @@ export function SearchCommandPalette({ isOpen, onClose }: SearchCommandPalettePr
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-150">
       <div
-        className="w-full max-w-2xl bg-[#0f172a] border border-line-strong/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
+        className="w-full max-w-2xl bg-surface border border-line-strong/80 rounded-lg shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header / Search Input */}
@@ -145,7 +145,7 @@ export function SearchCommandPalette({ isOpen, onClose }: SearchCommandPalettePr
               <div
                 key={item.id}
                 onClick={() => handleSelect(item)}
-                className="flex items-center justify-between p-3 rounded-xl hover:bg-line/70 cursor-pointer transition-all group"
+                className="flex items-center justify-between p-3 rounded-md hover:bg-line/70 cursor-pointer transition-all group"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="w-12 h-16 rounded-lg overflow-hidden bg-line shrink-0 relative border border-line-strong/50">

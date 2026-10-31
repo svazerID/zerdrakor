@@ -72,7 +72,7 @@ export default function WatchEpisodePage() {
         </p>
         <Link
           href="/katalog"
-          className="px-5 py-2.5 rounded-xl bg-accent hover:bg-accent text-white font-semibold text-xs transition-colors inline-flex items-center gap-2"
+          className="px-5 py-2.5 rounded-md bg-accent hover:bg-accent text-white font-semibold text-xs transition-colors inline-flex items-center gap-2"
         >
           <span>Kembali ke Katalog Drakor</span>
           <ArrowRight className="w-4 h-4" />
@@ -158,7 +158,7 @@ export default function WatchEpisodePage() {
         {/* Left Column: Title, Metadata, Synopsis, Comments */}
         <div className="lg:col-span-8 space-y-6">
           {/* Header & Quick Actions */}
-          <div className="bg-[#0b101c] border border-line rounded-2xl p-5 sm:p-6">
+          <div className="bg-surface border border-line rounded-lg p-5 sm:p-6">
             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
               <div>
                 <div className="flex items-center gap-2 text-xs text-mute mb-1.5 flex-wrap">
@@ -194,7 +194,7 @@ export default function WatchEpisodePage() {
               <div className="flex items-center gap-2 shrink-0">
                 <button
                   onClick={() => toggleWatchlist(drama.id)}
-                  className={`px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all border ${
+                  className={`px-3.5 py-2 rounded-md text-xs font-semibold flex items-center gap-1.5 transition-all border ${
                     inWatchlist
                       ? 'bg-ok/20 text-ok border-ok/80'
                       : 'bg-elevated hover:bg-line text-sub border-line-strong'
@@ -215,7 +215,7 @@ export default function WatchEpisodePage() {
 
                 <button
                   onClick={handleShare}
-                  className="px-3 py-2 rounded-xl bg-elevated hover:bg-line text-sub hover:text-white border border-line-strong text-xs font-medium flex items-center gap-1.5 transition-colors"
+                  className="px-3 py-2 rounded-md bg-elevated hover:bg-line text-sub hover:text-white border border-line-strong text-xs font-medium flex items-center gap-1.5 transition-colors"
                 >
                   <Share2 className="w-3.5 h-3.5" />
                   <span>{copiedShare ? 'Tersalin' : 'Bagikan'}</span>
@@ -242,7 +242,7 @@ export default function WatchEpisodePage() {
           </div>
 
           {/* Comment & Discussion Section */}
-          <div className="bg-[#0b101c] border border-line rounded-2xl p-5 sm:p-6">
+          <div className="bg-surface border border-line rounded-lg p-5 sm:p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
                 <MessageSquare className="w-4 h-4 text-accent-soft" />
@@ -259,12 +259,12 @@ export default function WatchEpisodePage() {
                   value={commentInput}
                   onChange={(e) => setCommentInput(e.target.value)}
                   placeholder="Bagikan reaksimu tentang episode drakor ini..."
-                  className="flex-1 bg-canvas border border-line-strong/80 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-white placeholder-mute focus:outline-none focus:border-accent"
+                  className="flex-1 bg-canvas border border-line-strong/80 rounded-md px-4 py-2.5 text-xs sm:text-sm text-white placeholder-mute focus:outline-none focus:border-accent"
                 />
                 <button
                   type="submit"
                   disabled={!commentInput.trim()}
-                  className="px-4 py-2.5 rounded-xl bg-accent hover:bg-accent disabled:opacity-50 disabled:pointer-events-none text-white font-semibold text-xs flex items-center gap-1.5 transition-colors"
+                  className="px-4 py-2.5 rounded-md bg-accent hover:bg-accent disabled:opacity-50 disabled:pointer-events-none text-white font-semibold text-xs flex items-center gap-1.5 transition-colors"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline">Kirim</span>
@@ -277,7 +277,7 @@ export default function WatchEpisodePage() {
               {comments.map((comment) => (
                 <div
                   key={comment.id}
-                  className="p-3 rounded-xl bg-canvas/60 border border-line/80 text-xs"
+                  className="p-3 rounded-md bg-canvas/60 border border-line/80 text-xs"
                 >
                   <div className="flex items-center justify-between mb-1.5">
                     <div className="flex items-center gap-2">
@@ -298,7 +298,7 @@ export default function WatchEpisodePage() {
         </div>
 
         {/* Right Column: Episode Playlist Sidebar */}
-        <div className="lg:col-span-4 bg-[#0b101c] border border-line rounded-2xl p-4 sm:p-5 sticky top-20">
+        <div className="lg:col-span-4 bg-surface border border-line rounded-lg p-4 sm:p-5 sticky top-20">
           <div className="flex items-center justify-between mb-3.5 pb-3 border-b border-line">
             <div className="flex items-center gap-2">
               <ListVideo className="w-4 h-4 text-accent-soft" />
@@ -316,7 +316,7 @@ export default function WatchEpisodePage() {
                 <Link
                   key={ep.id}
                   href={`/watch/${drama.slug}/${ep.episodeNumber}`}
-                  className={`flex items-center justify-between p-2.5 rounded-xl text-xs transition-all ${
+                  className={`flex items-center justify-between p-2.5 rounded-md text-xs transition-all ${
                     isCurrent
                       ? 'bg-accent text-white font-bold shadow-md shadow-accent/20'
                       : 'bg-elevated/60 text-sub hover:text-white hover:bg-elevated border border-line/80'

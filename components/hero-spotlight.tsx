@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import Link from 'next/link';
-import { Play, Info, Bookmark, Check, Sparkles, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Play, Info, Bookmark, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Drakor } from '@/types/donghua';
 import { useWatchlist } from '@/context/watchlist-context';
 
@@ -10,6 +10,9 @@ interface HeroSpotlightProps {
   featuredList: Drakor[];
 }
 
+// Hero ala Netflix: full-bleed edge-to-edge, ditarik ke atas melewati
+// padding main agar navbar transparan menimpanya, gradasi melebur ke
+// kanvas, konten di kiri-bawah dengan tombol Putar / Info dua warna.
 export function HeroSpotlight({ featuredList }: HeroSpotlightProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const { isInWatchlist, toggleWatchlist } = useWatchlist();
@@ -89,129 +92,99 @@ export function HeroSpotlight({ featuredList }: HeroSpotlightProps) {
 
   return (
     <section
-      className="relative w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-elevated border border-line shadow-sm mb-12 select-none touch-pan-y"
+      className="relative w-full select-none touch-pan-y -mt-18 sm:-mt-24"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
     >
-      {/* 1. Cover Cloned as Blurred Background */}
+      {/* Full-bleed backdrop: cover image + fade gradasi ala Netflix */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <img
           src={coverImage}
           alt=""
           aria-hidden="true"
-          className="w-full h-full object-cover object-center transition-all duration-700 ease-out opacity-60 sm:opacity-45 lg:opacity-25"
+          className="w-full h-full object-cover object-top scale-105 transition-all duration-700 ease-out"
           referrerPolicy="no-referrer"
           draggable={false}
         />
-
-        {/* 2. Spotlight Beam Lighting (Sinar Lampu Sorot / Spotlight Cone) */}
-        <div className="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
-
-        {/* 3. Soft gradient wash for text contrast */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/35 to-transparent" />
+        <div className="absolute inset-0 nf-hero-fade" />
       </div>
 
-      {/* Main Content Body */}
-      <div className="relative z-10 p-4 sm:p-8 md:p-10 flex flex-col justify-between min-h-[420px] sm:min-h-[480px]">
-        {/* Top/Middle Section: Left Info + Right Poster Card */}
-        <div className="flex flex-col-reverse md:flex-row md:items-center justify-between gap-6 md:gap-10">
-          {/* Left Column: Badges, Title, Synopsis, Action Buttons */}
-          <div className="flex-1 max-w-2xl">
-            {/* Badges Row */}
-            <div className="flex items-center gap-2 mb-3.5 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 rounded-xl px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-semibold bg-accent/20 border border-accent-soft/40 text-accent-soft">
-                <Sparkles className="w-3.5 h-3.5" />
-                Spotlight #{currentIndex + 1}
-              </span>
-
-              <span className="rounded-xl px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-semibold bg-white/10 text-white border border-white/20">
-                {current.network || current.genres[0] || 'Drakor'}
-              </span>
-
-              <span className="rounded-xl px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-semibold bg-ok/20 text-ok border border-ok/30">
-                Sub Indo HD
-              </span>
-            </div>
-
-            {/* Drama Title */}
-            <h1 className="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight line-clamp-2">
-              {current.title}
-            </h1>
-
-            {/* Hangul / Romanized Title */}
-            <p className="text-xs sm:text-sm text-accent-soft font-medium mt-1">
-              {current.hangulTitle} {current.romanizedTitle ? `· ${current.romanizedTitle}` : ''}
-            </p>
-
-            {/* Synopsis */}
-            <p className="text-sm sm:text-base text-white/80 mt-3 line-clamp-2 sm:line-clamp-3 max-w-2xl leading-relaxed">
-              {current.synopsis}
-            </p>
-
-            {/* Action Buttons Row (Nonton Sekarang, Detail, Bookmark Icon) */}
-            <div className="flex items-center gap-3 mt-6 flex-wrap">
-              <Link
-                href={`/watch/${current.slug}/${current.latestEpisode || 1}`}
-                className="flex items-center gap-2 px-5 sm:px-7 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-accent hover:scale-[1.02] active:scale-95 text-white font-semibold text-xs sm:text-sm transition-all shadow-sm"
-              >
-                <Play className="w-4 h-4 fill-white" />
-                <span>Nonton Sekarang</span>
-              </Link>
-
-              <Link
-                href={`/donghua/${current.slug}`}
-                className="flex items-center gap-2 px-5 sm:px-7 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold text-xs sm:text-sm transition-all"
-              >
-                <Info className="w-4 h-4" />
-                <span>Detail</span>
-              </Link>
-
-              <button
-                onClick={() => toggleWatchlist(current.id)}
-                aria-label={inWatchlist ? 'Hapus dari Watchlist' : 'Tambah ke Watchlist'}
-                title={inWatchlist ? 'Tersimpan di Watchlist' : 'Simpan ke Watchlist'}
-                className={`p-3 rounded-xl border transition-all flex items-center justify-center cursor-pointer ${
-                  inWatchlist
-                    ? 'bg-accent/30 border-accent-soft/40 text-accent-soft'
-                    : 'bg-white/10 border-white/20 text-white hover:bg-white/20'
-                }`}
-              >
-                {inWatchlist ? (
-                  <Check className="w-4 h-4 stroke-[2.5]" />
-                ) : (
-                  <Bookmark className="w-4 h-4" />
-                )}
-              </button>
-            </div>
+      {/* Main Content Body: kiri-bawah ala Netflix */}
+      <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 flex flex-col justify-end min-h-[520px] sm:min-h-[560px] lg:min-h-[640px] pt-18 sm:pt-24">
+        <div className="max-w-2xl pb-14 sm:pb-16">
+          {/* Baris kategori + rating ala Netflix */}
+          <div className="flex items-center gap-2.5 mb-3 flex-wrap">
+            <span className="inline-flex items-center gap-1.5 text-[11px] sm:text-xs font-bold text-accent">
+              <span className="w-1.5 h-1.5 rounded-sm bg-accent" />
+              Spotlight #{currentIndex + 1}
+            </span>
+            <span className="rounded-sm px-2 py-0.5 text-[11px] sm:text-xs font-semibold bg-white/15 text-white backdrop-blur-sm">
+              {current.network || current.genres[0] || 'Drakor'}
+            </span>
+            <span className="rounded-sm px-2 py-0.5 text-[11px] sm:text-xs font-semibold bg-ok/20 text-ok border border-ok/40">
+              Sub Indo HD
+            </span>
           </div>
 
-          {/* Right Column: Floating Poster Card with Spotlight Halo Glow */}
-          <div className="flex justify-center md:justify-end">
-            <div className="relative hidden sm:block w-20 sm:w-40 lg:w-52 xl:w-60 aspect-[3/4] rounded-xl sm:rounded-2xl overflow-hidden border border-line bg-elevated flex-shrink-0 group">
-              <img
-                src={coverImage}
-                alt={current.title}
-                className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
-                referrerPolicy="no-referrer"
-              />
+          {/* Drama Title */}
+          <h1
+            className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.05] line-clamp-2 drop-shadow-[0_3px_10px_rgba(0,0,0,0.8)]"
+            key={current.id}
+          >
+            {current.title}
+          </h1>
 
-              {/* Bottom tag inside poster card */}
-              <div className="absolute bottom-2.5 left-2.5 right-2.5 p-2 rounded-xl bg-black/80 border border-white/20 text-[11px] font-semibold text-white flex items-center justify-between shadow-sm">
-                <span className="text-accent-soft font-bold">Spotlight #{currentIndex + 1}</span>
-                <span className="text-white/70 font-mono">
-                  {currentIndex + 1} / {featuredList.length}
-                </span>
-              </div>
-            </div>
+          {/* Hangul / Romanized Title */}
+          <p className="text-xs sm:text-sm text-white/70 font-medium mt-2 drop-shadow">
+            {current.hangulTitle} {current.romanizedTitle ? `· ${current.romanizedTitle}` : ''}
+          </p>
+
+          {/* Synopsis */}
+          <p className="text-sm sm:text-base text-white/85 mt-3 line-clamp-2 sm:line-clamp-3 max-w-xl leading-relaxed drop-shadow">
+            {current.synopsis}
+          </p>
+
+          {/* Action Buttons Row ala Netflix: Putar (putih) + Info (abu) */}
+          <div className="flex items-center gap-3 mt-6 flex-wrap">
+            <Link
+              href={`/watch/${current.slug}/${current.latestEpisode || 1}`}
+              className="flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-md bg-white hover:bg-white/80 active:scale-95 text-black font-bold text-xs sm:text-base transition-all shadow-lg"
+            >
+              <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-black" />
+              <span>Tonton Sekarang</span>
+            </Link>
+
+            <Link
+              href={`/donghua/${current.slug}`}
+              className="flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-md bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white font-bold text-xs sm:text-base transition-all"
+            >
+              <Info className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span>Info Selengkapnya</span>
+            </Link>
+
+            <button
+              onClick={() => toggleWatchlist(current.id)}
+              aria-label={inWatchlist ? 'Hapus dari Watchlist' : 'Tambah ke Watchlist'}
+              title={inWatchlist ? 'Tersimpan di Watchlist' : 'Simpan ke Watchlist'}
+              className={`p-2.5 sm:p-3 rounded-full border transition-all flex items-center justify-center cursor-pointer ${
+                inWatchlist
+                  ? 'bg-accent border-accent text-white'
+                  : 'bg-black/40 border-white/40 text-white hover:bg-black/60'
+              }`}
+            >
+              {inWatchlist ? (
+                <Check className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.5]" />
+              ) : (
+                <Bookmark className="w-4 h-4 sm:w-5 sm:h-5" />
+              )}
+            </button>
           </div>
         </div>
 
-        {/* Bottom Navigation Bar: Left Indicator Dots + Right < > Arrow Buttons */}
-        <div className="flex items-center justify-between pt-3.5 sm:pt-4 mt-4 sm:mt-5 border-t border-line">
-          {/* Indicator Dots */}
+        {/* Kontrol slide: indikator kiri, panah kanan */}
+        <div className="absolute bottom-4 right-3 sm:right-6 flex items-center gap-3">
           <div className="flex items-center gap-1.5">
             {featuredList.map((_, idx) => (
               <button
@@ -219,28 +192,26 @@ export function HeroSpotlight({ featuredList }: HeroSpotlightProps) {
                 onClick={() => setCurrentIndex(idx)}
                 className={`transition-all cursor-pointer ${
                   idx === currentIndex
-                    ? 'w-6 sm:w-7 h-1.5 rounded-full bg-accent'
-                    : 'w-2 h-1.5 rounded-full bg-white/25'
+                    ? 'w-6 h-1 rounded-full bg-accent'
+                    : 'w-2 h-1 rounded-full bg-white/40 hover:bg-white/70'
                 }`}
                 aria-label={`Slide ke ${idx + 1}`}
                 title={`Slide ${idx + 1}`}
               />
             ))}
           </div>
-
-          {/* Previous / Next Arrow Buttons (< > in dedicated space, never overlapping content!) */}
-          <div className="flex items-center gap-2">
+          <div className="hidden sm:flex items-center gap-1.5">
             <button
               onClick={prevSlide}
               aria-label="Slide sebelumnya"
-              className="w-7 sm:w-8 h-7 sm:h-8 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all cursor-pointer active:scale-95 flex items-center justify-center"
+              className="w-8 h-8 rounded-full bg-black/50 hover:bg-black/70 border border-white/30 text-white transition-all cursor-pointer active:scale-95 flex items-center justify-center"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={nextSlide}
               aria-label="Slide berikutnya"
-              className="w-7 sm:w-8 h-7 sm:h-8 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white transition-all cursor-pointer active:scale-95 flex items-center justify-center"
+              className="w-8 h-8 rounded-full bg-black/50 hover:bg-black/70 border border-white/30 text-white transition-all cursor-pointer active:scale-95 flex items-center justify-center"
             >
               <ChevronRight className="w-4 h-4" />
             </button>

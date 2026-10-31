@@ -58,7 +58,7 @@ export default function WatchlistPage() {
         {drakorList.length > 0 && (
           <div className="flex items-center gap-2 self-start sm:self-auto">
             {showConfirmClear ? (
-              <div className="flex items-center gap-2 bg-accent/20 border border-accent p-1.5 rounded-xl text-xs">
+              <div className="flex items-center gap-2 bg-accent/20 border border-accent p-1.5 rounded-md text-xs">
                 <span className="text-accent pl-1">Hapus semua?</span>
                 <button
                   onClick={() => {
@@ -79,7 +79,7 @@ export default function WatchlistPage() {
             ) : (
               <button
                 onClick={() => setShowConfirmClear(true)}
-                className="px-3 py-2 rounded-xl bg-elevated border border-line text-mute hover:text-accent-soft hover:border-accent/50 text-xs font-medium flex items-center gap-1.5 transition-colors"
+                className="px-3 py-2 rounded-md bg-elevated border border-line text-mute hover:text-accent-soft hover:border-accent/50 text-xs font-medium flex items-center gap-1.5 transition-colors"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>Kosongkan Watchlist</span>
@@ -91,7 +91,7 @@ export default function WatchlistPage() {
 
       {/* Filter Tabs if items exist */}
       {drakorList.length > 0 && (
-        <div className="flex items-center justify-between bg-[#0b101c] border border-line rounded-xl p-3 mb-6 text-xs">
+        <div className="flex items-center justify-between bg-surface border border-line rounded-md p-3 mb-6 text-xs">
           <div className="flex items-center gap-2">
             <span className="text-mute font-medium">Filter Status:</span>
             <button
@@ -156,7 +156,7 @@ export default function WatchlistPage() {
         </div>
       ) : (
         /* Empty State */
-        <div className="py-20 px-4 text-center bg-[#0d1322] border border-dashed border-line rounded-2xl max-w-lg mx-auto">
+        <div className="py-20 px-4 text-center bg-surface border border-dashed border-line rounded-lg max-w-lg mx-auto">
           <div className="w-16 h-16 rounded-full bg-line text-faint flex items-center justify-center mx-auto mb-4">
             <Bookmark className="w-8 h-8" />
           </div>
@@ -166,7 +166,7 @@ export default function WatchlistPage() {
           </p>
           <Link
             href="/katalog"
-            className="px-5 py-2.5 rounded-xl bg-accent hover:bg-accent text-white font-semibold text-xs transition-colors inline-flex items-center gap-2 shadow-lg shadow-accent/20"
+            className="px-5 py-2.5 rounded-md bg-accent hover:bg-accent text-white font-semibold text-xs transition-colors inline-flex items-center gap-2 shadow-lg shadow-accent/20"
           >
             <Compass className="w-4 h-4" />
             <span>Jelajahi Katalog Drama Korea</span>

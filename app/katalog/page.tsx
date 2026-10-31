@@ -80,7 +80,7 @@ function CatalogContent() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Cari judul drakor, nama aktor/aktris (contoh: Kim Soo-hyun), atau tvN... (Ctrl+K)"
-            className="w-full bg-[#0d1322] border border-line-strong/80 rounded-xl pl-12 pr-10 py-3 text-sm text-white placeholder-mute focus:outline-none focus:border-accent focus:ring-1 focus:ring-rose-500 transition-all shadow-inner"
+            className="w-full bg-surface border border-line-strong/80 rounded-md pl-12 pr-10 py-3 text-sm text-white placeholder-mute focus:outline-none focus:border-accent focus:ring-1 focus:ring-rose-500 transition-all shadow-inner"
           />
           {searchQuery && (
             <button
@@ -95,7 +95,7 @@ function CatalogContent() {
       </div>
 
       {/* Filter Controls Bar */}
-      <div className="bg-[#0b101c] border border-line rounded-xl p-4 mb-8 space-y-4">
+      <div className="bg-surface border border-line rounded-md p-4 mb-8 space-y-4">
         {/* Row 1: Type, Status, & Sort */}
         <div className="flex flex-wrap items-center justify-between gap-3 text-xs">
           {/* Tipe Selector */}
@@ -236,7 +236,7 @@ function CatalogContent() {
         </div>
       ) : (
         /* Empty State */
-        <div className="py-16 px-4 text-center bg-[#0d1322] border border-dashed border-line rounded-2xl max-w-lg mx-auto">
+        <div className="py-16 px-4 text-center bg-surface border border-dashed border-line rounded-lg max-w-lg mx-auto">
           <div className="w-16 h-16 rounded-full bg-line/80 text-accent-soft flex items-center justify-center mx-auto mb-4">
             <Compass className="w-8 h-8" />
           </div>

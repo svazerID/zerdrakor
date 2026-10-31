@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!--
+    OG preview ZerDrakor ala Netflix (1200x630 untuk Facebook/WhatsApp/
+    LinkedIn/Discord & Twitter large card): kanvas #141414, glow merah
+    diagonal, wordmark ZERDRAKOR merah, tagline & chip info putih.
+  -->
+  <defs>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#E50914" stop-opacity="0.22"/>
+      <stop offset="0.5" stop-color="#E50914" stop-opacity="0.05"/>
+      <stop offset="1" stop-color="#E50914" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="zbar" gradientUnits="userSpaceOnUse" x1="0" y1="238" x2="0" y2="318">
+      <stop offset="0" stop-color="#F6121D"/>
+      <stop offset="1" stop-color="#C11119"/>
+    </linearGradient>
+    <linearGradient id="zdiag" gradientUnits="userSpaceOnUse" x1="124" y1="252" x2="86" y2="304">
+      <stop offset="0" stop-color="#B1060F"/>
+      <stop offset="1" stop-color="#8A050C"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="#141414"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+
+  <!-- Ikon Z ribbon besar di kiri -->
+  <g transform="translate(96,150)">
+    <rect width="112" height="160" fill="#141414"/>
+    <path d="M82 24 L30 136" stroke="url(#zdiag)" stroke-width="22" fill="none"/>
+    <rect x="22" y="13" width="68" height="22" fill="url(#zbar)"/>
+    <rect x="22" y="125" width="68" height="22" fill="url(#zbar)"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="248" y="290" font-family="Arial Black, Arial, Helvetica, sans-serif"
+        font-size="96" font-weight="900" fill="#E50914" letter-spacing="-2">ZERDRAKOR</text>
+  <text x="252" y="345" font-family="Arial, Helvetica, sans-serif"
+        font-size="30" font-weight="700" fill="#FFFFFF" letter-spacing="6">DRAMA KOREA • K-MOVIE</text>
+
+  <!-- Tagline -->
+  <text x="96" y="430" font-family="Arial, Helvetica, sans-serif"
+        font-size="36" font-weight="700" fill="#FFFFFF">Nonton &amp; Streaming Sub Indo Gratis</text>
+  <text x="96" y="476" font-family="Arial, Helvetica, sans-serif"
+        font-size="24" font-weight="400" fill="#B3B3B3">Server cepat HD 1080p • Update tiap hari • Watchlist gratis</text>
+
+  <!-- Chip bawah ala badge Netflix -->
+  <g font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">
+    <rect x="96" y="520" width="110" height="40" rx="4" fill="#E50914"/>
+    <text x="151" y="546" fill="#FFFFFF" text-anchor="middle">SUB INDO</text>
+    <rect x="218" y="520" width="150" height="40" rx="4" fill="#2A2A2A"/>
+    <text x="293" y="546" fill="#FFFFFF" text-anchor="middle">FULL EPISODE</text>
+    <rect x="380" y="520" width="130" height="40" rx="4" fill="#2A2A2A"/>
+    <text x="445" y="546" fill="#FFFFFF" text-anchor="middle">GRATIS HD</text>
+  </g>
+</svg>

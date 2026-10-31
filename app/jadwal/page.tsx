@@ -74,7 +74,7 @@ export default function SchedulePage() {
             <button
               key={day}
               onClick={() => setSelectedDay(day)}
-              className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
+              className={`px-4 py-2 rounded-md text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
                 isSelected
                   ? 'bg-accent text-white shadow-md shadow-accent/20'
                   : 'bg-elevated text-sub hover:text-white hover:bg-line border border-line'
@@ -96,7 +96,7 @@ export default function SchedulePage() {
       </div>
 
       {/* Filter Bar (Status) */}
-      <div className="flex items-center justify-between bg-[#0b101c] border border-line rounded-xl p-3 mb-6 text-xs">
+      <div className="flex items-center justify-between bg-surface border border-line rounded-md p-3 mb-6 text-xs">
         <div className="flex items-center gap-2">
           <span className="text-mute font-medium">Status Siaran:</span>
           <button
@@ -137,7 +137,7 @@ export default function SchedulePage() {
       {/* Main Content Area */}
       {simulatedError ? (
         /* Error State */
-        <div className="py-16 px-4 text-center bg-[#0d1322] border border-accent/40 rounded-2xl max-w-lg mx-auto">
+        <div className="py-16 px-4 text-center bg-surface border border-accent/40 rounded-lg max-w-lg mx-auto">
           <div className="w-14 h-14 rounded-full bg-accent/10 border border-accent/30 text-accent-soft flex items-center justify-center mx-auto mb-3">
             <AlertCircle className="w-7 h-7" />
           </div>
@@ -160,7 +160,7 @@ export default function SchedulePage() {
             return (
               <div
                 key={item.id}
-                className="bg-[#0b101c] border border-line rounded-xl p-4 hover:border-accent-soft/40 transition-all flex flex-col justify-between group"
+                className="bg-surface border border-line rounded-md p-4 hover:border-accent-soft/40 transition-all flex flex-col justify-between group"
               >
                 <div className="flex items-start gap-3.5">
                   <div className="w-14 h-20 rounded-lg overflow-hidden bg-canvas shrink-0 border border-line">
@@ -237,7 +237,7 @@ export default function SchedulePage() {
         </div>
       ) : (
         /* Empty State */
-        <div className="py-16 px-4 text-center bg-[#0d1322] border border-dashed border-line rounded-2xl max-w-lg mx-auto">
+        <div className="py-16 px-4 text-center bg-surface border border-dashed border-line rounded-lg max-w-lg mx-auto">
           <Calendar className="w-12 h-12 text-faint mx-auto mb-3" />
           <h3 className="text-base font-bold text-white mb-1">
             Tidak Ada Jadwal Tayang Drakor pada {selectedDay}

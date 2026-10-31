@@ -66,7 +66,7 @@ export default function DrakorDetailPage() {
         </p>
         <Link
           href="/katalog"
-          className="px-5 py-2.5 rounded-xl bg-accent hover:bg-accent text-white font-semibold text-xs transition-colors inline-flex items-center gap-2"
+          className="px-5 py-2.5 rounded-md bg-accent hover:bg-accent text-white font-semibold text-xs transition-colors inline-flex items-center gap-2"
         >
           <span>Kembali ke Katalog Drakor</span>
           <ArrowRight className="w-4 h-4" />
@@ -104,7 +104,7 @@ export default function DrakorDetailPage() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           {/* Left Column: Poster & Quick CTAs */}
           <div className="md:col-span-4 lg:col-span-3 flex flex-col items-center md:items-start">
-            <div className="w-56 sm:w-64 md:w-full aspect-[3/4] rounded-2xl overflow-hidden bg-elevated border-2 border-line-strong/80 shadow-2xl relative">
+            <div className="w-56 sm:w-64 md:w-full aspect-[3/4] rounded-lg overflow-hidden bg-elevated border-2 border-line-strong/80 shadow-2xl relative">
               <img
                 src={drama.posterUrl}
                 alt={drama.title}
@@ -123,7 +123,7 @@ export default function DrakorDetailPage() {
             <div className="w-full mt-4 space-y-2.5">
               <Link
                 href={`/watch/${drama.slug}/${drama.latestEpisode || 1}`}
-                className="w-full py-3 px-4 rounded-xl bg-accent hover:bg-accent text-white font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-accent/25"
+                className="w-full py-3 px-4 rounded-md bg-accent hover:bg-accent text-white font-bold text-sm flex items-center justify-center gap-2 transition-all shadow-lg shadow-accent/25"
               >
                 <Play className="w-4 h-4 fill-white" />
                 <span>Mulai Nonton Ep {drama.latestEpisode || 1}</span>
@@ -131,7 +131,7 @@ export default function DrakorDetailPage() {
 
               <button
                 onClick={() => toggleWatchlist(drama.id)}
-                className={`w-full py-2.5 px-4 rounded-xl font-semibold text-xs flex items-center justify-center gap-2 transition-all border ${
+                className={`w-full py-2.5 px-4 rounded-md font-semibold text-xs flex items-center justify-center gap-2 transition-all border ${
                   inWatchlist
                     ? 'bg-ok/20 text-ok border-ok/80'
                     : 'bg-elevated hover:bg-line text-sub border-line'
@@ -152,7 +152,7 @@ export default function DrakorDetailPage() {
 
               <button
                 onClick={handleShare}
-                className="w-full py-2 px-4 rounded-xl bg-elevated/60 hover:bg-line/80 text-mute hover:text-white border border-line text-xs font-medium flex items-center justify-center gap-2 transition-colors"
+                className="w-full py-2 px-4 rounded-md bg-elevated/60 hover:bg-line/80 text-mute hover:text-white border border-line text-xs font-medium flex items-center justify-center gap-2 transition-colors"
               >
                 <Share2 className="w-3.5 h-3.5" />
                 <span>{copiedShare ? 'Tautan Disalin!' : 'Bagikan Drama'}</span>
@@ -160,7 +160,7 @@ export default function DrakorDetailPage() {
             </div>
 
             {/* Quick Metadata Box */}
-            <div className="w-full mt-6 bg-[#0d1322] border border-line/80 rounded-xl p-4 text-xs space-y-2.5">
+            <div className="w-full mt-6 bg-surface border border-line/80 rounded-md p-4 text-xs space-y-2.5">
               <div className="flex justify-between py-1 border-b border-line/60">
                 <span className="text-mute">Jaringan / Network</span>
                 <span className="font-semibold text-accent-soft">{drama.network}</span>
@@ -258,7 +258,7 @@ export default function DrakorDetailPage() {
             </div>
 
             {/* Synopsis Section */}
-            <div className="bg-[#0b101c] border border-line rounded-2xl p-5 sm:p-6">
+            <div className="bg-surface border border-line rounded-lg p-5 sm:p-6">
               <h3 className="text-base font-bold text-white mb-2 flex items-center gap-2">
                 <span>Sinopsis Cerita</span>
               </h3>
@@ -286,7 +286,7 @@ export default function DrakorDetailPage() {
                     <Link
                       key={ep.id}
                       href={`/watch/${drama.slug}/${ep.episodeNumber}`}
-                      className="flex items-center justify-between p-3.5 rounded-xl bg-elevated/60 border border-line/80 hover:border-accent-soft/40 hover:bg-elevated transition-all group"
+                      className="flex items-center justify-between p-3.5 rounded-md bg-elevated/60 border border-line/80 hover:border-accent-soft/40 hover:bg-elevated transition-all group"
                     >
                       <div className="flex items-center gap-3 min-w-0">
                         <div className="w-10 h-10 rounded-lg bg-line group-hover:bg-accent group-hover:text-white text-accent-soft flex items-center justify-center shrink-0 transition-colors">
@@ -312,7 +312,7 @@ export default function DrakorDetailPage() {
                   ))}
                 </div>
               ) : (
-                <div className="p-8 text-center bg-elevated/40 rounded-xl border border-line">
+                <div className="p-8 text-center bg-elevated/40 rounded-md border border-line">
                   <p className="text-xs text-mute">Episode belum tersedia untuk drama ini.</p>
                 </div>
               )}

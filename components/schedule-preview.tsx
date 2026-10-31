@@ -28,11 +28,11 @@ export function SchedulePreview({ schedules, showAllLink = true }: SchedulePrevi
   const daySchedules = schedules.filter((s) => s.dayOfWeek === selectedDay);
 
   return (
-    <div className="w-full bg-[#0d1322] border border-line/80 rounded-2xl p-5 sm:p-6 shadow-sm">
+    <div className="w-full bg-surface rounded-lg p-5 sm:p-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-lg bg-accent/20 text-accent-soft border border-accent/50">
+          <div className="p-2 rounded-md bg-accent/15 text-accent border border-accent/40">
             <Calendar className="w-4 h-4" />
           </div>
           <div>
@@ -90,7 +90,7 @@ export function SchedulePreview({ schedules, showAllLink = true }: SchedulePrevi
             return (
               <div
                 key={item.id}
-                className="flex items-center justify-between p-3 rounded-xl bg-elevated/60 border border-line/80 hover:border-accent/30 transition-all group"
+                className="flex items-center justify-between p-3 rounded-md bg-elevated/60 border border-line/80 hover:border-accent/30 transition-all group"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   {drama?.posterUrl && (
@@ -140,7 +140,7 @@ export function SchedulePreview({ schedules, showAllLink = true }: SchedulePrevi
                   {item.status === 'aired' ? (
                     <Link
                       href={`/watch/${drama?.slug}/${item.episodeNumber}`}
-                      className="p-2 rounded-lg bg-accent/20 text-accent-soft hover:bg-accent hover:text-white transition-colors flex items-center gap-1 text-xs font-semibold"
+                      className="p-2 rounded-md bg-accent/15 text-accent hover:bg-accent hover:text-white hover:text-white transition-colors flex items-center gap-1 text-xs font-semibold"
                       title="Tonton sekarang"
                     >
                       <Play className="w-3.5 h-3.5 fill-current" />
@@ -160,7 +160,7 @@ export function SchedulePreview({ schedules, showAllLink = true }: SchedulePrevi
             );
           })
         ) : (
-          <div className="col-span-full py-8 text-center bg-elevated/30 rounded-xl border border-dashed border-line">
+          <div className="col-span-full py-8 text-center bg-elevated/30 rounded-md border border-dashed border-line">
             <Calendar className="w-8 h-8 text-faint mx-auto mb-2" />
             <p className="text-sm text-mute font-medium">
               Tidak ada jadwal tayang drakor pada hari {selectedDay}.
