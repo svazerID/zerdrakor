@@ -132,7 +132,7 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
             </Link>
           </div>
         </div>
-        <div className="relative w-full bg-canvas min-h-[50vh] sm:min-h-[60vh] flex items-center justify-center overflow-hidden">
+        <div className="relative aspect-video w-full flex items-center justify-center bg-canvas overflow-hidden">
           {!isErrorState ? (
             <video
               ref={videoRef}
