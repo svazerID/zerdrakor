@@ -183,7 +183,10 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
           {!isErrorState ? (
             <video
               ref={videoRef}
-              src={selectedSource.url}
+              // Lewat proxy origin sendiri, bukan URL http upstream langsung:
+              // halaman https memblokir video http (mixed content) — lihat
+              // app/api/stream/route.ts untuk penjelasan lengkapnya.
+              src={`/api/stream?url=${encodeURIComponent(selectedSource.url)}`}
               onTimeUpdate={handleTimeUpdate}
               onLoadedMetadata={handleLoadedMetadata}
               onWaiting={() => setIsLoading(true)}
