@@ -2,104 +2,86 @@ import React from 'react';
 import Link from 'next/link';
 import { Heart, ShieldCheck } from 'lucide-react';
 
+// Footer ala ZerDonghua: bg-canvas, border-line, grid 4 kolom,
+// brand span 2, heading uppercase kecil, bottom bar text-faint.
 export function Footer() {
+  const genres = [
+    { label: 'Romance', href: '/katalog?genre=romance' },
+    { label: 'Drama', href: '/katalog?genre=drama' },
+    { label: 'Comedy', href: '/katalog?genre=comedy' },
+    { label: 'Thriller', href: '/katalog?genre=thriller' },
+    { label: 'Film Korea (K-Movie)', href: '/katalog?type=movie' },
+  ];
   return (
-    <footer className="w-full bg-[#05070d] border-t border-slate-800/80 text-slate-400 text-sm mt-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          {/* Col 1: Brand & Synopsis */}
+    <footer className="mt-16 border-t border-line bg-canvas text-mute pt-12 pb-24 md:pb-12 px-3 sm:px-6">
+      <div className="max-w-7xl mx-auto space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="md:col-span-2 space-y-3">
-            <Link href="/" className="flex items-center gap-2.5 text-lg font-bold text-white">
-              <img
-                src="/zerdrakor_icon.jpg"
-                alt="ZerDrakor Icon"
-                className="w-7 h-7 rounded-lg object-cover border border-purple-500/40 shadow-sm"
-              />
-              <span className="font-extrabold tracking-tight bg-gradient-to-r from-white via-purple-100 to-rose-300 bg-clip-text text-transparent">
-                Zer<span className="text-purple-400">Drakor</span>
+            <Link href="/" className="flex items-center gap-2.5">
+              <span className="w-12 h-12 rounded-2xl bg-accent p-[1.5px] shadow-sm flex items-center justify-center">
+                <span className="w-full h-full bg-surface rounded-[14px] flex items-center justify-center">
+                  <img
+                    src="/zerdrakor_icon.jpg"
+                    alt="ZerDrakor Icon"
+                    className="w-full h-full object-contain p-1.5 rounded-[14px]"
+                  />
+                </span>
+              </span>
+              <span className="text-2xl font-black tracking-tight leading-none">
+                <span className="text-ink">ZER</span>
+                <span className="text-accent-soft">DRAKOR</span>
               </span>
             </Link>
-            <p className="text-xs text-slate-400 leading-relaxed max-w-md">
+            <p className="text-xs sm:text-sm text-mute max-w-md leading-relaxed">
               Platform katalog, jadwal tayang, dan streaming serial drama Korea (drakor) serta film Korea (K-Movie)
-              terdepan berbahasa Indonesia. Temukan ribuan episode romansa, komedi, melodrama, thriller misteri, dan
-              hukum kriminal dengan kualitas HD dan subtitle Indonesia resmi.
+              berbahasa Indonesia. Temukan ribuan episode romansa, komedi, melodrama, thriller misteri, dan
+              hukum kriminal dengan kualitas HD dan subtitle Indonesia.
             </p>
-            <div className="flex items-center gap-2 text-xs text-slate-400 pt-1">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
-              <span>Sinkronisasi jadwal tayang saluran tvN, SBS, JTBC, ENA, dan Netflix zona WIB (UTC+7)</span>
+            <p className="flex items-center gap-2 text-xs text-ok font-semibold">
+              <ShieldCheck className="w-4 h-4" />
+              <span>Server Cepat • Sub Indo • Update Tiap Hari</span>
+            </p>
+          </div>
+
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-ink mb-3">Navigasi Utama</h4>
+            <ul className="space-y-2 text-xs">
+              {[
+                { label: 'Beranda', href: '/' },
+                { label: 'Katalog Drama Korea', href: '/katalog' },
+                { label: 'Jadwal Rilis Mingguan', href: '/jadwal' },
+                { label: 'Peringkat Populer', href: '/peringkat' },
+                { label: 'Daftar Tontonan (Watchlist)', href: '/watchlist' },
+              ].map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="hover:text-accent-soft transition-colors">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-ink mb-3">Genre Drakor Pilihan</h4>
+            <div className="flex flex-wrap gap-2">
+              {genres.map((g) => (
+                <Link
+                  key={g.href}
+                  href={g.href}
+                  className="text-[11px] px-2 py-1 rounded-lg bg-line hover:bg-accent/20 text-sub hover:text-accent-soft transition-colors"
+                >
+                  {g.label}
+                </Link>
+              ))}
             </div>
-          </div>
-
-          {/* Col 2: Navigasi Cepat */}
-          <div>
-            <h4 className="text-xs font-semibold text-slate-200 uppercase tracking-wider mb-3">Navigasi Utama</h4>
-            <ul className="space-y-2 text-xs">
-              <li>
-                <Link href="/" className="hover:text-rose-400 transition-colors">
-                  Beranda
-                </Link>
-              </li>
-              <li>
-                <Link href="/katalog" className="hover:text-rose-400 transition-colors">
-                  Katalog Drama Korea
-                </Link>
-              </li>
-              <li>
-                <Link href="/jadwal" className="hover:text-rose-400 transition-colors">
-                  Jadwal Rilis Mingguan
-                </Link>
-              </li>
-              <li>
-                <Link href="/peringkat" className="hover:text-rose-400 transition-colors">
-                  Peringkat Populer
-                </Link>
-              </li>
-              <li>
-                <Link href="/watchlist" className="hover:text-rose-400 transition-colors">
-                  Daftar Tontonan (Watchlist)
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Col 3: Genre Populer */}
-          <div>
-            <h4 className="text-xs font-semibold text-slate-200 uppercase tracking-wider mb-3">Genre Drakor Pilihan</h4>
-            <ul className="space-y-2 text-xs">
-              <li>
-                <Link href="/katalog?genre=rom-com" className="hover:text-rose-400 transition-colors">
-                  Rom-Com (Komedi Romantis)
-                </Link>
-              </li>
-              <li>
-                <Link href="/katalog?genre=melodrama" className="hover:text-rose-400 transition-colors">
-                  Melodrama Menguras Air Mata
-                </Link>
-              </li>
-              <li>
-                <Link href="/katalog?genre=crime-law" className="hover:text-rose-400 transition-colors">
-                  Hukum & Kriminal
-                </Link>
-              </li>
-              <li>
-                <Link href="/katalog?genre=thriller" className="hover:text-rose-400 transition-colors">
-                  Thriller & Misteri
-                </Link>
-              </li>
-              <li>
-                <Link href="/katalog?type=movie" className="hover:text-rose-400 transition-colors">
-                  Film Korea (K-Movie)
-                </Link>
-              </li>
-            </ul>
           </div>
         </div>
 
-        {/* Bottom Bar: Copyright & Disclaimer */}
-        <div className="pt-6 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <p>© {new Date().getFullYear()} ZerDrakor. Dibuat dengan cinta untuk komunitas pecinta drama Korea Indonesia.</p>
-          <p className="text-[11px] text-slate-400 text-center sm:text-right">
-            Hak cipta drama, poster, dan materi siaran adalah milik masing-masing jaringan TV (tvN, SBS, JTBC, Netflix, Disney+, dll).
+        <div className="pt-6 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-faint">
+          <p>© {new Date().getFullYear()} ZerDrakor. Semua hak cipta drama dan poster milik jaringan TV masing-masing.</p>
+          <p className="flex items-center gap-1">
+            Dibuat dengan <Heart className="w-3 h-3 text-warn fill-warn" /> untuk pecinta drama Korea Indonesia
           </p>
         </div>
       </div>

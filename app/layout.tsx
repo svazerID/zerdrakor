@@ -1,8 +1,25 @@
 import type { Metadata } from 'next';
+import localFont from 'next/font/local';
 import './globals.css';
 import { WatchlistProvider } from '@/context/watchlist-context';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
+import { MobileBottomNav } from '@/components/mobile-bottom-nav';
+
+// Font self-hosted persis ZerDonghua (bukan next/font/google — fetch
+// Google Fonts pernah merusak deploy Workers).
+const inter = localFont({
+  src: './fonts/Inter.woff2',
+  variable: '--font-inter',
+  weight: '100 900',
+  display: 'swap',
+});
+const outfit = localFont({
+  src: './fonts/Outfit.woff2',
+  variable: '--font-outfit',
+  weight: '100 900',
+  display: 'swap',
+});
 
 // Set APP_URL in the deployment environment (Workers dashboard variable) to
 // the real production host. The localhost fallback is only for local dev;
@@ -131,13 +148,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body
-        className="bg-[#07090e] text-slate-100 min-h-screen flex flex-col antialiased selection:bg-purple-600 selection:text-white"
+        className={`${inter.variable} ${outfit.variable} bg-canvas text-ink min-h-screen flex flex-col antialiased selection:bg-accent selection:text-white`}
         suppressHydrationWarning
       >
         <WatchlistProvider>
           <Navbar />
-          <main className="flex-1 w-full">{children}</main>
+          {/* pt mengimbangi header fixed ala ZerDonghua */}
+          <main className="flex-1 w-full pt-18 sm:pt-24">{children}</main>
           <Footer />
+          <MobileBottomNav />
         </WatchlistProvider>
       </body>
     </html>

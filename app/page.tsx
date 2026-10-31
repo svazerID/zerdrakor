@@ -26,15 +26,15 @@ export default function HomePage() {
 
   if (error) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-20 text-center">
-        <h1 className="text-xl font-bold text-white mb-2">Data live belum bisa dimuat</h1>
-        <p className="text-sm text-slate-400">{error}. Coba muat ulang halaman.</p>
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 py-20 text-center">
+        <h1 className="text-xl font-bold text-ink mb-2">Data live belum bisa dimuat</h1>
+        <p className="text-sm text-mute">{error}. Coba muat ulang halaman.</p>
       </div>
     );
   }
   if (!data) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-20 text-center text-slate-400 text-sm">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 py-20 text-center text-mute text-sm">
         Memuat katalog live...
       </div>
     );
@@ -48,7 +48,7 @@ export default function HomePage() {
   const SCHEDULE_LIST = data.schedule;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-12">
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-8 space-y-12">
       {/* 1. Hero Spotlight */}
       <HeroSpotlight featuredList={featured} />
 
@@ -59,18 +59,18 @@ export default function HomePage() {
       <section>
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-rose-950/80 text-rose-400 border border-rose-800/60">
+            <div className="w-9 h-9 rounded-2xl bg-accent text-white flex items-center justify-center shrink-0">
               <Sparkles className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white tracking-tight">Rekomendasi & Pilihan Editor</h2>
-              <p className="text-xs text-slate-400">Drama Korea terbaik dengan rating tinggi dan chemistry memukau</p>
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-ink">Rekomendasi & Pilihan Editor</h2>
+              <p className="text-xs text-mute">Drama Korea terbaik dengan rating tinggi dan chemistry memukau</p>
             </div>
           </div>
 
           <Link
             href="/katalog"
-            className="text-xs font-semibold text-rose-400 hover:text-rose-300 flex items-center gap-1 group"
+            className="text-xs font-semibold text-accent-soft hover:text-accent-soft flex items-center gap-1 group"
           >
             <span>Semua Katalog Drakor</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -88,18 +88,18 @@ export default function HomePage() {
       <section>
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-rose-950/80 text-rose-400 border border-rose-800/60">
+            <div className="w-9 h-9 rounded-2xl bg-accent text-white flex items-center justify-center shrink-0">
               <Flame className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white tracking-tight">Pembaruan Episode Terbaru</h2>
-              <p className="text-xs text-slate-400">Rilis subtitle Indonesia terkini yang siap ditonton</p>
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-ink">Pembaruan Episode Terbaru</h2>
+              <p className="text-xs text-mute">Rilis subtitle Indonesia terkini yang siap ditonton</p>
             </div>
           </div>
 
           <Link
             href="/katalog?sort=latest"
-            className="text-xs font-semibold text-rose-400 hover:text-rose-300 flex items-center gap-1 group"
+            className="text-xs font-semibold text-accent-soft hover:text-accent-soft flex items-center gap-1 group"
           >
             <span>Lihat Semua Rilis</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -127,18 +127,18 @@ export default function HomePage() {
       <section>
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-purple-950/80 text-purple-400 border border-purple-800/60">
+            <div className="w-9 h-9 rounded-2xl bg-accent text-white flex items-center justify-center shrink-0">
               <Compass className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white tracking-tight">Telusuri Berdasarkan Genre</h2>
-              <p className="text-xs text-slate-400">Eksplorasi drama Korea menurut tema dan suasana hati Anda</p>
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-ink">Telusuri Berdasarkan Genre</h2>
+              <p className="text-xs text-mute">Eksplorasi drama Korea menurut tema dan suasana hati Anda</p>
             </div>
           </div>
 
           <Link
             href="/katalog"
-            className="text-xs font-semibold text-rose-400 hover:text-rose-300 flex items-center gap-1 group"
+            className="text-xs font-semibold text-accent-soft hover:text-accent-soft flex items-center gap-1 group"
           >
             <span>Buka Semua Genre</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -150,15 +150,15 @@ export default function HomePage() {
             <Link
               key={genre.id}
               href={`/katalog?genre=${genre.slug}`}
-              className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:border-rose-500/40 hover:bg-slate-900 transition-all group"
+              className="p-3.5 rounded-2xl bg-elevated border border-line hover:border-accent-soft/40 transition-all group"
             >
               <div className="flex items-center justify-between mb-1.5">
-                <span className="font-bold text-sm text-slate-200 group-hover:text-rose-300 transition-colors">
+                <span className="font-bold text-sm text-ink group-hover:text-accent-soft transition-colors">
                   {genre.name}
                 </span>
-                <span className="text-[11px] font-mono text-slate-400">{genre.count} judul</span>
+                <span className="text-[11px] font-mono text-mute">{genre.count} judul</span>
               </div>
-              <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">
+              <p className="text-[11px] text-mute line-clamp-2 leading-relaxed">
                 {genre.description}
               </p>
             </Link>
@@ -171,18 +171,18 @@ export default function HomePage() {
         <section>
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-lg bg-pink-950/80 text-pink-400 border border-pink-800/60">
+              <div className="w-9 h-9 rounded-2xl bg-accent text-white flex items-center justify-center shrink-0">
                 <PlayCircle className="w-4 h-4" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-white tracking-tight">Film Layar Lebar Korea (K-Movie)</h2>
-                <p className="text-xs text-slate-400">Film bioskop blockbuster Korea Selatan berdurasi penuh</p>
+                <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-ink">Film Layar Lebar Korea (K-Movie)</h2>
+                <p className="text-xs text-mute">Film bioskop blockbuster Korea Selatan berdurasi penuh</p>
               </div>
             </div>
 
             <Link
               href="/katalog?type=movie"
-              className="text-xs font-semibold text-rose-400 hover:text-rose-300 flex items-center gap-1 group"
+              className="text-xs font-semibold text-accent-soft hover:text-accent-soft flex items-center gap-1 group"
             >
               <span>Semua Film Korea</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />

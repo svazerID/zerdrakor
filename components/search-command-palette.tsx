@@ -69,24 +69,24 @@ export function SearchCommandPalette({ isOpen, onClose }: SearchCommandPalettePr
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-150">
       <div
-        className="w-full max-w-2xl bg-[#0f172a] border border-slate-700/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
+        className="w-full max-w-2xl bg-[#0f172a] border border-line-strong/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[80vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header / Search Input */}
-        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-slate-800 bg-slate-900/90">
-          <Search className="w-5 h-5 text-rose-400 shrink-0" />
+        <div className="flex items-center gap-3 px-4 py-3.5 border-b border-line bg-elevated/90">
+          <Search className="w-5 h-5 text-accent-soft shrink-0" />
           <input
             ref={inputRef}
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Cari judul drakor, aktor, hangul... (contoh: Kim Ji-won, Queen of Tears, tvN)"
-            className="w-full bg-transparent text-white placeholder-slate-400 text-sm sm:text-base outline-none font-medium"
+            className="w-full bg-transparent text-white placeholder-mute text-sm sm:text-base outline-none font-medium"
           />
           {query && (
             <button
               onClick={() => setQuery('')}
-              className="text-slate-400 hover:text-white p-1 rounded-md transition-colors"
+              className="text-mute hover:text-white p-1 rounded-md transition-colors"
               aria-label="Bersihkan pencarian"
             >
               <X className="w-4 h-4" />
@@ -94,22 +94,22 @@ export function SearchCommandPalette({ isOpen, onClose }: SearchCommandPalettePr
           )}
           <button
             onClick={handleClose}
-            className="text-xs px-2 py-1 rounded bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors shrink-0"
+            className="text-xs px-2 py-1 rounded bg-line text-sub hover:text-white hover:bg-line-strong transition-colors shrink-0"
           >
             ESC
           </button>
         </div>
 
         {/* Filter Bar */}
-        <div className="flex items-center justify-between px-4 py-2 border-b border-slate-800/80 bg-slate-900/50 text-xs">
+        <div className="flex items-center justify-between px-4 py-2 border-b border-line/80 bg-elevated/50 text-xs">
           <div className="flex items-center gap-1.5">
-            <span className="text-slate-400 mr-1 hidden sm:inline">Format:</span>
+            <span className="text-mute mr-1 hidden sm:inline">Format:</span>
             <button
               onClick={() => setSelectedType('all')}
               className={`px-2.5 py-1 rounded-md font-medium transition-colors ${
                 selectedType === 'all'
-                  ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                  ? 'bg-accent/20 text-accent-soft border border-accent/30'
+                  : 'text-mute hover:text-sub hover:bg-line'
               }`}
             >
               Semua
@@ -118,8 +118,8 @@ export function SearchCommandPalette({ isOpen, onClose }: SearchCommandPalettePr
               onClick={() => setSelectedType('series')}
               className={`px-2.5 py-1 rounded-md font-medium transition-colors ${
                 selectedType === 'series'
-                  ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                  ? 'bg-accent/20 text-accent-soft border border-accent/30'
+                  : 'text-mute hover:text-sub hover:bg-line'
               }`}
             >
               Serial Drakor
@@ -128,27 +128,27 @@ export function SearchCommandPalette({ isOpen, onClose }: SearchCommandPalettePr
               onClick={() => setSelectedType('movie')}
               className={`px-2.5 py-1 rounded-md font-medium transition-colors ${
                 selectedType === 'movie'
-                  ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                  ? 'bg-accent/20 text-accent-soft border border-accent/30'
+                  : 'text-mute hover:text-sub hover:bg-line'
               }`}
             >
               Film Korea (K-Movie)
             </button>
           </div>
-          <span className="text-slate-500 text-[11px]">{filtered.length} ditemukan</span>
+          <span className="text-faint text-[11px]">{filtered.length} ditemukan</span>
         </div>
 
         {/* Results List */}
-        <div className="overflow-y-auto p-2 divide-y divide-slate-800/40">
+        <div className="overflow-y-auto p-2 divide-y divide-line/40">
           {filtered.length > 0 ? (
             filtered.map((item) => (
               <div
                 key={item.id}
                 onClick={() => handleSelect(item)}
-                className="flex items-center justify-between p-3 rounded-xl hover:bg-slate-800/70 cursor-pointer transition-all group"
+                className="flex items-center justify-between p-3 rounded-xl hover:bg-line/70 cursor-pointer transition-all group"
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-12 h-16 rounded-lg overflow-hidden bg-slate-800 shrink-0 relative border border-slate-700/50">
+                  <div className="w-12 h-16 rounded-lg overflow-hidden bg-line shrink-0 relative border border-line-strong/50">
                     <img
                       src={item.posterUrl}
                       alt={item.title}
@@ -158,33 +158,33 @@ export function SearchCommandPalette({ isOpen, onClose }: SearchCommandPalettePr
                   </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-semibold text-rose-400 flex items-center gap-1">
+                      <span className="text-xs font-semibold text-accent-soft flex items-center gap-1">
                         {item.type === 'movie' ? <Film className="w-3 h-3" /> : <Tv className="w-3 h-3" />}
                         {item.type === 'movie' ? 'Film Korea' : 'Serial Drakor'}
                       </span>
-                      <span className="text-slate-600 text-xs">·</span>
-                      <span className="text-[11px] font-medium text-slate-300">
+                      <span className="text-faint text-xs">·</span>
+                      <span className="text-[11px] font-medium text-sub">
                         {item.network}
                       </span>
-                      <span className="text-slate-600 text-xs">·</span>
-                      <span className="text-xs text-amber-400 flex items-center gap-0.5">
-                        <Star className="w-3 h-3 fill-amber-400" />
+                      <span className="text-faint text-xs">·</span>
+                      <span className="text-xs text-warn flex items-center gap-0.5">
+                        <Star className="w-3 h-3 fill-warn" />
                         {item.rating}
                       </span>
                     </div>
-                    <h4 className="text-sm font-semibold text-white group-hover:text-rose-300 transition-colors truncate">
+                    <h4 className="text-sm font-semibold text-white group-hover:text-accent-soft transition-colors truncate">
                       {item.title}
                     </h4>
-                    <p className="text-xs text-slate-400 truncate">
+                    <p className="text-xs text-mute truncate">
                       {item.hangulTitle} {item.romanizedTitle ? `· ${item.romanizedTitle}` : ''}
                     </p>
-                    <p className="text-[11px] text-slate-400 truncate mt-0.5">
+                    <p className="text-[11px] text-mute truncate mt-0.5">
                       Pemeran: {item.cast.slice(0, 3).join(', ')}
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 text-slate-400 group-hover:text-rose-400 pl-2 shrink-0">
+                <div className="flex items-center gap-2 text-mute group-hover:text-accent-soft pl-2 shrink-0">
                   <span className="text-xs hidden sm:inline">Buka Detail</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -192,11 +192,11 @@ export function SearchCommandPalette({ isOpen, onClose }: SearchCommandPalettePr
             ))
           ) : (
             <div className="py-12 px-4 text-center">
-              <Compass className="w-10 h-10 text-slate-600 mx-auto mb-3" />
-              <p className="text-slate-300 font-medium text-sm">
+              <Compass className="w-10 h-10 text-faint mx-auto mb-3" />
+              <p className="text-sub font-medium text-sm">
                 Tidak ada drama Korea yang cocok dengan &ldquo;{query}&rdquo;
               </p>
-              <p className="text-slate-500 text-xs mt-1">
+              <p className="text-faint text-xs mt-1">
                 Coba gunakan kata kunci nama aktor (Kim Soo-hyun, Park Shin-hye) atau genre favorit.
               </p>
               <button
@@ -204,7 +204,7 @@ export function SearchCommandPalette({ isOpen, onClose }: SearchCommandPalettePr
                   handleClose();
                   router.push('/katalog');
                 }}
-                className="mt-4 px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white text-xs font-medium rounded-lg transition-colors"
+                className="mt-4 px-4 py-2 bg-accent hover:bg-accent text-white text-xs font-medium rounded-lg transition-colors"
               >
                 Jelajahi Semua Katalog Drakor
               </button>
@@ -213,9 +213,9 @@ export function SearchCommandPalette({ isOpen, onClose }: SearchCommandPalettePr
         </div>
 
         {/* Footer shortcuts info */}
-        <div className="px-4 py-2 bg-slate-950/80 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+        <div className="px-4 py-2 bg-canvas/80 border-t border-line/80 flex items-center justify-between text-[11px] text-mute">
           <span>Tekan ESC untuk menutup</span>
-          <span className="text-rose-400">Ctrl + K untuk pencarian instan drama Korea</span>
+          <span className="text-accent-soft">Ctrl + K untuk pencarian instan drama Korea</span>
         </div>
       </div>
     </div>

@@ -40,12 +40,12 @@ export function ContinueWatching() {
     <div className="w-full mb-10">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <Clock className="w-5 h-5 text-rose-400" />
+          <Clock className="w-5 h-5 text-accent-soft" />
           <h2 className="text-xl font-bold text-white tracking-tight">Lanjutkan Menonton Drakor</h2>
         </div>
         <button
           onClick={clearHistory}
-          className="text-xs text-slate-400 hover:text-rose-400 flex items-center gap-1 transition-colors"
+          className="text-xs text-mute hover:text-accent-soft flex items-center gap-1 transition-colors"
           title="Hapus riwayat tontonan"
         >
           <Trash2 className="w-3.5 h-3.5" />
@@ -66,9 +66,9 @@ export function ContinueWatching() {
           return (
             <div
               key={item.id}
-              className="group bg-slate-900/60 border border-slate-800 rounded-xl overflow-hidden hover:border-rose-500/40 transition-all flex flex-col"
+              className="group bg-elevated/60 border border-line rounded-xl overflow-hidden hover:border-accent-soft/40 transition-all flex flex-col"
             >
-              <div className="relative aspect-video w-full bg-slate-950 overflow-hidden">
+              <div className="relative aspect-video w-full bg-canvas overflow-hidden">
                 <img
                   src={drama.bannerUrl || drama.posterUrl}
                   alt={drama.title}
@@ -78,7 +78,7 @@ export function ContinueWatching() {
                 <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
                   <Link
                     href={`/watch/${drama.slug}/${item.episodeNumber}`}
-                    className="w-10 h-10 rounded-full bg-rose-600 text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform"
+                    className="w-10 h-10 rounded-full bg-accent text-white flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform"
                     aria-label={`Lanjutkan ${drama.title} Episode ${item.episodeNumber}`}
                   >
                     <Play className="w-5 h-5 fill-white ml-0.5" />
@@ -91,8 +91,8 @@ export function ContinueWatching() {
                 </div>
 
                 {/* Progress bar */}
-                <div className="absolute bottom-0 left-0 right-0 h-1 bg-slate-800">
-                  <div className="h-full bg-rose-500" style={{ width: `${progressPercent}%` }} />
+                <div className="absolute bottom-0 left-0 right-0 h-1 bg-line">
+                  <div className="h-full bg-accent" style={{ width: `${progressPercent}%` }} />
                 </div>
               </div>
 
@@ -100,19 +100,19 @@ export function ContinueWatching() {
                 <div>
                   <Link
                     href={`/donghua/${drama.slug}`}
-                    className="font-semibold text-sm text-slate-100 hover:text-rose-300 transition-colors line-clamp-1"
+                    className="font-semibold text-sm text-ink hover:text-accent-soft transition-colors line-clamp-1"
                   >
                     {drama.title}
                   </Link>
-                  <p className="text-xs text-slate-400 mt-0.5 flex items-center justify-between">
+                  <p className="text-xs text-mute mt-0.5 flex items-center justify-between">
                     <span>{drama.network}</span>
-                    <span className="text-rose-400 font-medium">{progressPercent}% selesai</span>
+                    <span className="text-accent-soft font-medium">{progressPercent}% selesai</span>
                   </p>
                 </div>
 
                 <Link
                   href={`/watch/${drama.slug}/${item.episodeNumber}`}
-                  className="mt-3 flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-slate-800 hover:bg-rose-600 hover:text-white text-xs font-semibold text-slate-200 transition-colors"
+                  className="mt-3 flex items-center justify-center gap-1.5 py-1.5 px-3 rounded-lg bg-line hover:bg-accent hover:text-white text-xs font-semibold text-sub transition-colors"
                 >
                   <span>Putar Sekarang</span>
                   <ArrowRight className="w-3.5 h-3.5" />

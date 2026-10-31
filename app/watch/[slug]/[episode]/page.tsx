@@ -53,7 +53,7 @@ export default function WatchEpisodePage() {
 
   if (!drama && !notFound) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-20 text-center text-slate-400 text-sm">
+      <div className="max-w-4xl mx-auto px-4 py-20 text-center text-mute text-sm">
         Memuat episode live...
       </div>
     );
@@ -63,16 +63,16 @@ export default function WatchEpisodePage() {
   if (!drama) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-        <div className="w-16 h-16 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center mx-auto mb-4">
+        <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 text-accent-soft flex items-center justify-center mx-auto mb-4">
           <AlertCircle className="w-8 h-8" />
         </div>
         <h1 className="text-2xl font-bold text-white mb-2">Drama Korea Tidak Ditemukan</h1>
-        <p className="text-sm text-slate-400 mb-6">
+        <p className="text-sm text-mute mb-6">
           Tidak dapat memutar video karena serial drakor tidak ditemukan.
         </p>
         <Link
           href="/katalog"
-          className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-semibold text-xs transition-colors inline-flex items-center gap-2"
+          className="px-5 py-2.5 rounded-xl bg-accent hover:bg-accent text-white font-semibold text-xs transition-colors inline-flex items-center gap-2"
         >
           <span>Kembali ke Katalog Drakor</span>
           <ArrowRight className="w-4 h-4" />
@@ -107,7 +107,7 @@ export default function WatchEpisodePage() {
     const newComment = {
       id: `c-${Date.now()}`,
       author: 'Kamu (Penonton)',
-      avatarColor: 'bg-rose-500',
+      avatarColor: 'bg-accent',
       time: 'Baru saja',
       text: commentInput.trim(),
       likes: 1,
@@ -125,22 +125,22 @@ export default function WatchEpisodePage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 py-6">
       {/* Breadcrumbs */}
-      <nav className="flex items-center gap-2 text-xs text-slate-400 mb-4 overflow-x-auto whitespace-nowrap">
-        <Link href="/" className="hover:text-rose-400 transition-colors">
+      <nav className="flex items-center gap-2 text-xs text-mute mb-4 overflow-x-auto whitespace-nowrap">
+        <Link href="/" className="hover:text-accent-soft transition-colors">
           Beranda
         </Link>
         <span>/</span>
-        <Link href="/katalog" className="hover:text-rose-400 transition-colors">
+        <Link href="/katalog" className="hover:text-accent-soft transition-colors">
           Katalog Drakor
         </Link>
         <span>/</span>
-        <Link href={`/donghua/${drama.slug}`} className="hover:text-rose-400 transition-colors truncate max-w-xs">
+        <Link href={`/donghua/${drama.slug}`} className="hover:text-accent-soft transition-colors truncate max-w-xs">
           {drama.title}
         </Link>
         <span>/</span>
-        <span className="text-rose-400 font-semibold">Episode {activeEpisode.episodeNumber}</span>
+        <span className="text-accent-soft font-semibold">Episode {activeEpisode.episodeNumber}</span>
       </nav>
 
       {/* Main Player Row */}
@@ -158,33 +158,33 @@ export default function WatchEpisodePage() {
         {/* Left Column: Title, Metadata, Synopsis, Comments */}
         <div className="lg:col-span-8 space-y-6">
           {/* Header & Quick Actions */}
-          <div className="bg-[#0b101c] border border-slate-800 rounded-2xl p-5 sm:p-6">
+          <div className="bg-[#0b101c] border border-line rounded-2xl p-5 sm:p-6">
             <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
               <div>
-                <div className="flex items-center gap-2 text-xs text-slate-400 mb-1.5 flex-wrap">
-                  <span className="text-rose-400 font-semibold flex items-center gap-1">
+                <div className="flex items-center gap-2 text-xs text-mute mb-1.5 flex-wrap">
+                  <span className="text-accent-soft font-semibold flex items-center gap-1">
                     {drama.type === 'movie' ? <Film className="w-3.5 h-3.5" /> : <Tv className="w-3.5 h-3.5" />}
                     {drama.network}
                   </span>
                   <span>·</span>
-                  <span className="text-emerald-400 font-medium">Sub Indo Resmi</span>
+                  <span className="text-ok font-medium">Sub Indo Resmi</span>
                   <span>·</span>
-                  <span className="flex items-center gap-1 text-amber-400 font-semibold">
-                    <Star className="w-3.5 h-3.5 fill-amber-400" />
+                  <span className="flex items-center gap-1 text-warn font-semibold">
+                    <Star className="w-3.5 h-3.5 fill-warn" />
                     {drama.rating}
                   </span>
                   <span>·</span>
-                  <span className="text-slate-400">{drama.hangulTitle}</span>
+                  <span className="text-mute">{drama.hangulTitle}</span>
                 </div>
 
                 <h1 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
                   {drama.title} — Episode {activeEpisode.episodeNumber}
                 </h1>
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-mute mt-1">
                   {activeEpisode.title}
                 </p>
                 {drama.cast && (
-                  <p className="text-xs text-rose-300/80 font-medium mt-1">
+                  <p className="text-xs text-accent-soft/80 font-medium mt-1">
                     Pemeran: {drama.cast.join(', ')}
                   </p>
                 )}
@@ -196,13 +196,13 @@ export default function WatchEpisodePage() {
                   onClick={() => toggleWatchlist(drama.id)}
                   className={`px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 transition-all border ${
                     inWatchlist
-                      ? 'bg-emerald-950/80 text-emerald-300 border-emerald-700/80'
-                      : 'bg-slate-900 hover:bg-slate-800 text-slate-200 border-slate-700'
+                      ? 'bg-ok/20 text-ok border-ok/80'
+                      : 'bg-elevated hover:bg-line text-sub border-line-strong'
                   }`}
                 >
                   {inWatchlist ? (
                     <>
-                      <Check className="w-3.5 h-3.5 text-emerald-400 stroke-[2.5]" />
+                      <Check className="w-3.5 h-3.5 text-ok stroke-[2.5]" />
                       <span>Di Watchlist</span>
                     </>
                   ) : (
@@ -215,7 +215,7 @@ export default function WatchEpisodePage() {
 
                 <button
                   onClick={handleShare}
-                  className="px-3 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700 text-xs font-medium flex items-center gap-1.5 transition-colors"
+                  className="px-3 py-2 rounded-xl bg-elevated hover:bg-line text-sub hover:text-white border border-line-strong text-xs font-medium flex items-center gap-1.5 transition-colors"
                 >
                   <Share2 className="w-3.5 h-3.5" />
                   <span>{copiedShare ? 'Tersalin' : 'Bagikan'}</span>
@@ -224,16 +224,16 @@ export default function WatchEpisodePage() {
             </div>
 
             {/* Synopsis Dropdown / Excerpt */}
-            <div className="mt-4 pt-4 border-t border-slate-800/80">
-              <h4 className="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">
+            <div className="mt-4 pt-4 border-t border-line/80">
+              <h4 className="text-xs font-semibold text-sub uppercase tracking-wider mb-1">
                 Sinopsis Drama Korea
               </h4>
-              <p className="text-xs text-slate-400 leading-relaxed line-clamp-3">
+              <p className="text-xs text-mute leading-relaxed line-clamp-3">
                 {drama.synopsis}
               </p>
               <Link
                 href={`/donghua/${drama.slug}`}
-                className="text-xs text-rose-400 hover:text-rose-300 font-semibold inline-flex items-center gap-1 mt-2"
+                className="text-xs text-accent-soft hover:text-accent-soft font-semibold inline-flex items-center gap-1 mt-2"
               >
                 <span>Lihat profil & info lengkap drama ini</span>
                 <ArrowRight className="w-3 h-3" />
@@ -242,13 +242,13 @@ export default function WatchEpisodePage() {
           </div>
 
           {/* Comment & Discussion Section */}
-          <div className="bg-[#0b101c] border border-slate-800 rounded-2xl p-5 sm:p-6">
+          <div className="bg-[#0b101c] border border-line rounded-2xl p-5 sm:p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2">
-                <MessageSquare className="w-4 h-4 text-rose-400" />
+                <MessageSquare className="w-4 h-4 text-accent-soft" />
                 <h3 className="text-base font-bold text-white">Diskusi & Komentar Pemirsa ({comments.length})</h3>
               </div>
-              <span className="text-xs text-slate-400">Komunitas DrakorNusa</span>
+              <span className="text-xs text-mute">Komunitas DrakorNusa</span>
             </div>
 
             {/* Comment Form */}
@@ -259,12 +259,12 @@ export default function WatchEpisodePage() {
                   value={commentInput}
                   onChange={(e) => setCommentInput(e.target.value)}
                   placeholder="Bagikan reaksimu tentang episode drakor ini..."
-                  className="flex-1 bg-slate-950 border border-slate-700/80 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-white placeholder-slate-400 focus:outline-none focus:border-rose-500"
+                  className="flex-1 bg-canvas border border-line-strong/80 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-white placeholder-mute focus:outline-none focus:border-accent"
                 />
                 <button
                   type="submit"
                   disabled={!commentInput.trim()}
-                  className="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 disabled:opacity-50 disabled:pointer-events-none text-white font-semibold text-xs flex items-center gap-1.5 transition-colors"
+                  className="px-4 py-2.5 rounded-xl bg-accent hover:bg-accent disabled:opacity-50 disabled:pointer-events-none text-white font-semibold text-xs flex items-center gap-1.5 transition-colors"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline">Kirim</span>
@@ -277,7 +277,7 @@ export default function WatchEpisodePage() {
               {comments.map((comment) => (
                 <div
                   key={comment.id}
-                  className="p-3 rounded-xl bg-slate-950/60 border border-slate-800/80 text-xs"
+                  className="p-3 rounded-xl bg-canvas/60 border border-line/80 text-xs"
                 >
                   <div className="flex items-center justify-between mb-1.5">
                     <div className="flex items-center gap-2">
@@ -286,11 +286,11 @@ export default function WatchEpisodePage() {
                       >
                         {comment.author.charAt(0)}
                       </div>
-                      <span className="font-semibold text-slate-200">{comment.author}</span>
+                      <span className="font-semibold text-sub">{comment.author}</span>
                     </div>
-                    <span className="text-[11px] text-slate-400">{comment.time}</span>
+                    <span className="text-[11px] text-mute">{comment.time}</span>
                   </div>
-                  <p className="text-slate-300 pl-8 leading-relaxed">{comment.text}</p>
+                  <p className="text-sub pl-8 leading-relaxed">{comment.text}</p>
                 </div>
               ))}
             </div>
@@ -298,13 +298,13 @@ export default function WatchEpisodePage() {
         </div>
 
         {/* Right Column: Episode Playlist Sidebar */}
-        <div className="lg:col-span-4 bg-[#0b101c] border border-slate-800 rounded-2xl p-4 sm:p-5 sticky top-20">
-          <div className="flex items-center justify-between mb-3.5 pb-3 border-b border-slate-800">
+        <div className="lg:col-span-4 bg-[#0b101c] border border-line rounded-2xl p-4 sm:p-5 sticky top-20">
+          <div className="flex items-center justify-between mb-3.5 pb-3 border-b border-line">
             <div className="flex items-center gap-2">
-              <ListVideo className="w-4 h-4 text-rose-400" />
+              <ListVideo className="w-4 h-4 text-accent-soft" />
               <h3 className="font-bold text-sm text-white">Daftar Episode</h3>
             </div>
-            <span className="text-xs text-slate-400 font-mono">
+            <span className="text-xs text-mute font-mono">
               {episodes.length} Episode
             </span>
           </div>
@@ -318,14 +318,14 @@ export default function WatchEpisodePage() {
                   href={`/watch/${drama.slug}/${ep.episodeNumber}`}
                   className={`flex items-center justify-between p-2.5 rounded-xl text-xs transition-all ${
                     isCurrent
-                      ? 'bg-rose-600 text-white font-bold shadow-md shadow-rose-600/20'
-                      : 'bg-slate-900/60 text-slate-300 hover:text-white hover:bg-slate-900 border border-slate-800/80'
+                      ? 'bg-accent text-white font-bold shadow-md shadow-accent/20'
+                      : 'bg-elevated/60 text-sub hover:text-white hover:bg-elevated border border-line/80'
                   }`}
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
                     <span
                       className={`w-6 h-6 rounded flex items-center justify-center text-[11px] font-bold shrink-0 ${
-                        isCurrent ? 'bg-slate-950 text-rose-300' : 'bg-slate-800 text-slate-400'
+                        isCurrent ? 'bg-canvas text-accent-soft' : 'bg-line text-mute'
                       }`}
                     >
                       {ep.episodeNumber}
@@ -337,7 +337,7 @@ export default function WatchEpisodePage() {
 
                   <span
                     className={`text-[10px] font-mono shrink-0 ml-2 ${
-                      isCurrent ? 'text-white font-bold' : 'text-slate-400'
+                      isCurrent ? 'text-white font-bold' : 'text-mute'
                     }`}
                   >
                     {ep.duration}

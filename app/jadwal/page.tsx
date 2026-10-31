@@ -35,21 +35,21 @@ export default function SchedulePage() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="max-w-7xl mx-auto px-3 sm:px-6 py-8">
       {/* Title & Info Banner */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-semibold text-rose-400 bg-rose-950 border border-rose-800/60 px-2.5 py-0.5 rounded-full">
+            <span className="text-xs font-semibold text-accent-soft bg-accent border border-accent-soft/40 px-2.5 py-0.5 rounded-full">
               Waktu Siaran: Seoul (KST) diubah ke WIB (UTC+7)
             </span>
-            <span className="text-xs text-slate-400">·</span>
-            <span className="text-xs text-emerald-400 font-medium">Hari ini: {todayWIB}</span>
+            <span className="text-xs text-mute">·</span>
+            <span className="text-xs text-ok font-medium">Hari ini: {todayWIB}</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
             Jadwal Tayang Drama Korea Mingguan
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <p className="text-sm text-mute mt-1">
             Jadwal live dari sumber: hanya hari tayang yang tersedia di sumber, bukan jam
             siaran — jadi kolom waktu menampilkan hari, bukan jam pasti.
             {loadError ? ` (${loadError})` : ''}
@@ -59,7 +59,7 @@ export default function SchedulePage() {
         {/* Test Simulator Toggle for error handling requirement */}
         <button
           onClick={() => setSimulatedError(!simulatedError)}
-          className="text-xs text-slate-400 hover:text-slate-300 underline underline-offset-2 self-start md:self-auto"
+          className="text-xs text-mute hover:text-sub underline underline-offset-2 self-start md:self-auto"
         >
           {simulatedError ? 'Kembalikan Tampilan Normal' : 'Simulasi Gagal Memuat Jadwal'}
         </button>
@@ -76,15 +76,15 @@ export default function SchedulePage() {
               onClick={() => setSelectedDay(day)}
               className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all whitespace-nowrap shrink-0 flex items-center gap-1.5 ${
                 isSelected
-                  ? 'bg-rose-600 text-white shadow-md shadow-rose-600/20'
-                  : 'bg-slate-900 text-slate-300 hover:text-white hover:bg-slate-800 border border-slate-800'
+                  ? 'bg-accent text-white shadow-md shadow-accent/20'
+                  : 'bg-elevated text-sub hover:text-white hover:bg-line border border-line'
               }`}
             >
               <span>{day}</span>
               {isToday && (
                 <span
                   className={`text-[9px] px-1.5 py-0.2 rounded font-bold uppercase ${
-                    isSelected ? 'bg-slate-950 text-rose-300' : 'bg-rose-950 text-rose-300'
+                    isSelected ? 'bg-canvas text-accent-soft' : 'bg-accent text-accent-soft'
                   }`}
                 >
                   Hari Ini
@@ -96,15 +96,15 @@ export default function SchedulePage() {
       </div>
 
       {/* Filter Bar (Status) */}
-      <div className="flex items-center justify-between bg-[#0b101c] border border-slate-800 rounded-xl p-3 mb-6 text-xs">
+      <div className="flex items-center justify-between bg-[#0b101c] border border-line rounded-xl p-3 mb-6 text-xs">
         <div className="flex items-center gap-2">
-          <span className="text-slate-400 font-medium">Status Siaran:</span>
+          <span className="text-mute font-medium">Status Siaran:</span>
           <button
             onClick={() => setStatusFilter('all')}
             className={`px-2.5 py-1 rounded-lg font-medium transition-colors ${
               statusFilter === 'all'
-                ? 'bg-rose-950 text-rose-300 border border-rose-800'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-accent text-accent-soft border border-accent'
+                : 'text-mute hover:text-white'
             }`}
           >
             Semua ({allSchedules.length})
@@ -113,8 +113,8 @@ export default function SchedulePage() {
             onClick={() => setStatusFilter('upcoming')}
             className={`px-2.5 py-1 rounded-lg font-medium transition-colors ${
               statusFilter === 'upcoming'
-                ? 'bg-rose-950 text-rose-300 border border-rose-800'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-accent text-accent-soft border border-accent'
+                : 'text-mute hover:text-white'
             }`}
           >
             Segera Tayang
@@ -123,31 +123,31 @@ export default function SchedulePage() {
             onClick={() => setStatusFilter('aired')}
             className={`px-2.5 py-1 rounded-lg font-medium transition-colors ${
               statusFilter === 'aired'
-                ? 'bg-rose-950 text-rose-300 border border-rose-800'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-accent text-accent-soft border border-accent'
+                : 'text-mute hover:text-white'
             }`}
           >
             Sudah Tayang
           </button>
         </div>
 
-        <span className="text-slate-400">{filtered.length} jadwal ditemukan</span>
+        <span className="text-mute">{filtered.length} jadwal ditemukan</span>
       </div>
 
       {/* Main Content Area */}
       {simulatedError ? (
         /* Error State */
-        <div className="py-16 px-4 text-center bg-[#0d1322] border border-rose-900/40 rounded-2xl max-w-lg mx-auto">
-          <div className="w-14 h-14 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-400 flex items-center justify-center mx-auto mb-3">
+        <div className="py-16 px-4 text-center bg-[#0d1322] border border-accent/40 rounded-2xl max-w-lg mx-auto">
+          <div className="w-14 h-14 rounded-full bg-accent/10 border border-accent/30 text-accent-soft flex items-center justify-center mx-auto mb-3">
             <AlertCircle className="w-7 h-7" />
           </div>
           <h3 className="text-base font-bold text-white mb-1">Gagal Memuat Jadwal Drakor</h3>
-          <p className="text-xs text-slate-400 mb-5 leading-relaxed">
+          <p className="text-xs text-mute mb-5 leading-relaxed">
             Terjadi masalah saat mengambil data siaran drama Korea. Silakan coba muat ulang halaman.
           </p>
           <button
             onClick={() => setSimulatedError(false)}
-            className="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold rounded-lg transition-colors inline-flex items-center gap-1.5"
+            className="px-4 py-2 bg-accent hover:bg-accent text-white text-xs font-semibold rounded-lg transition-colors inline-flex items-center gap-1.5"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>Coba Lagi</span>
@@ -160,10 +160,10 @@ export default function SchedulePage() {
             return (
               <div
                 key={item.id}
-                className="bg-[#0b101c] border border-slate-800 rounded-xl p-4 hover:border-rose-500/40 transition-all flex flex-col justify-between group"
+                className="bg-[#0b101c] border border-line rounded-xl p-4 hover:border-accent-soft/40 transition-all flex flex-col justify-between group"
               >
                 <div className="flex items-start gap-3.5">
-                  <div className="w-14 h-20 rounded-lg overflow-hidden bg-slate-950 shrink-0 border border-slate-800">
+                  <div className="w-14 h-20 rounded-lg overflow-hidden bg-canvas shrink-0 border border-line">
                     <img
                       src={drama?.posterUrl}
                       alt={drama?.title}
@@ -174,24 +174,24 @@ export default function SchedulePage() {
 
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 mb-1 flex-wrap">
-                      <span className="text-[11px] font-bold text-rose-400 bg-rose-950/70 border border-rose-800/50 px-2 py-0.5 rounded flex items-center gap-1">
+                      <span className="text-[11px] font-bold text-accent-soft bg-accent/20 border border-accent/50 px-2 py-0.5 rounded flex items-center gap-1">
                         <Clock className="w-3 h-3" />
                         {item.airTime}
                       </span>
-                      <span className="text-slate-600 text-xs">·</span>
-                      <span className="text-[11px] text-slate-300 font-medium">
+                      <span className="text-faint text-xs">·</span>
+                      <span className="text-[11px] text-sub font-medium">
                         {item.dayOfWeek}
                       </span>
                     </div>
 
                     <Link
                       href={`/donghua/${drama?.slug || ''}`}
-                      className="font-bold text-sm text-slate-100 hover:text-rose-300 transition-colors block line-clamp-1"
+                      className="font-bold text-sm text-ink hover:text-accent-soft transition-colors block line-clamp-1"
                     >
                       {drama?.title}
                     </Link>
 
-                    <p className="text-xs text-slate-400 line-clamp-1 mt-0.5">
+                    <p className="text-xs text-mute line-clamp-1 mt-0.5">
                       {drama?.hangulTitle}
                     </p>
 
@@ -199,25 +199,25 @@ export default function SchedulePage() {
                       <span
                         className={`text-[10px] font-semibold px-2 py-0.5 rounded ${
                           item.status === 'aired'
-                            ? 'bg-emerald-950 text-emerald-400 border border-emerald-800/50'
-                            : 'bg-amber-950/80 text-amber-300 border border-amber-800/50'
+                            ? 'bg-ok text-ok border border-ok/50'
+                            : 'bg-warn/80 text-warn border border-warn/50'
                         }`}
                       >
                         {item.status === 'aired' ? 'Sudah Tayang' : 'Segera Tayang'}
                       </span>
-                      <span className="text-[11px] text-slate-400 font-medium">
+                      <span className="text-[11px] text-mute font-medium">
                         {item.network} · Ep {item.episodeNumber}
                       </span>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-slate-800/60 flex items-center justify-between">
-                  <span className="text-[11px] text-slate-400">Pemeran: {drama?.cast?.slice(0, 1)[0] || 'Aktor Korea'}</span>
+                <div className="mt-4 pt-3 border-t border-line/60 flex items-center justify-between">
+                  <span className="text-[11px] text-mute">Pemeran: {drama?.cast?.slice(0, 1)[0] || 'Aktor Korea'}</span>
                   {item.status === 'aired' ? (
                     <Link
                       href={`/watch/${drama?.slug}/${item.episodeNumber}`}
-                      className="px-3 py-1.5 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold flex items-center gap-1 transition-colors"
+                      className="px-3 py-1.5 rounded-lg bg-accent hover:bg-accent text-white text-xs font-bold flex items-center gap-1 transition-colors"
                     >
                       <Play className="w-3 h-3 fill-white" />
                       <span>Nonton Ep {item.episodeNumber}</span>
@@ -225,7 +225,7 @@ export default function SchedulePage() {
                   ) : (
                     <Link
                       href={`/donghua/${drama?.slug}`}
-                      className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium transition-colors"
+                      className="px-3 py-1.5 rounded-lg bg-line hover:bg-line-strong text-sub text-xs font-medium transition-colors"
                     >
                       Lihat Detail
                     </Link>
@@ -237,12 +237,12 @@ export default function SchedulePage() {
         </div>
       ) : (
         /* Empty State */
-        <div className="py-16 px-4 text-center bg-[#0d1322] border border-dashed border-slate-800 rounded-2xl max-w-lg mx-auto">
-          <Calendar className="w-12 h-12 text-slate-600 mx-auto mb-3" />
+        <div className="py-16 px-4 text-center bg-[#0d1322] border border-dashed border-line rounded-2xl max-w-lg mx-auto">
+          <Calendar className="w-12 h-12 text-faint mx-auto mb-3" />
           <h3 className="text-base font-bold text-white mb-1">
             Tidak Ada Jadwal Tayang Drakor pada {selectedDay}
           </h3>
-          <p className="text-xs text-slate-400 mb-4">
+          <p className="text-xs text-mute mb-4">
             Tidak ada penayangan episode baru yang dijadwalkan pada hari ini dengan filter yang dipilih.
           </p>
           <button
@@ -250,7 +250,7 @@ export default function SchedulePage() {
               setSelectedDay('Semua Hari');
               setStatusFilter('all');
             }}
-            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold rounded-lg transition-colors"
+            className="px-4 py-2 bg-line hover:bg-line-strong text-white text-xs font-semibold rounded-lg transition-colors"
           >
             Tampilkan Semua Hari
           </button>

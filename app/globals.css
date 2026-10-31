@@ -2,36 +2,110 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/*
+ * Design system ZerDonghua ("clean-minimalism"), diterapkan ke ZerDrakor.
+ * Setiap warna di app merujuk ke token semantik ini; nilai mentahnya
+ * membalik antara :root (light) dan .dark. Tidak perlu prefix dark: —
+ * toggle class .dark di <html> me-reskin seluruh app. Default app ini
+ * adalah dark (html class="dark" di layout).
+ */
+@theme inline {
+  --color-canvas: var(--c-canvas);
+  --color-surface: var(--c-surface);
+  --color-elevated: var(--c-elevated);
+  --color-alt: var(--c-alt);
+  --color-ink: var(--c-ink);
+  --color-sub: var(--c-sub);
+  --color-mute: var(--c-mute);
+  --color-faint: var(--c-faint);
+  --color-line: var(--c-line);
+  --color-line-strong: var(--c-line-strong);
+  --color-accent: var(--c-accent);
+  --color-accent-soft: var(--c-accent-soft);
+  --color-ok: var(--c-ok);
+  --color-warn: var(--c-warn);
+  --color-bad: var(--c-bad);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-outfit), var(--font-inter), ui-sans-serif, sans-serif;
+}
+
+:root {
+  --c-canvas: #fafafa;
+  --c-surface: #ffffff;
+  --c-elevated: #f4f4f5;
+  --c-alt: #ececf0;
+  --c-ink: #18181b;
+  --c-sub: #3f3f46;
+  --c-mute: #71717a;
+  --c-faint: #a1a1aa;
+  --c-line: #00000014;
+  --c-line-strong: #00000026;
+  --c-accent: #6d28d9;
+  --c-accent-soft: #7c3aed;
+  --c-ok: #00873a;
+  --c-warn: #e04a00;
+  --c-bad: #d10012;
+}
+
+.dark {
+  --c-canvas: #06060b;
+  --c-surface: #0a0c10;
+  --c-elevated: #0d1015;
+  --c-alt: #101019;
+  --c-ink: #ffffff;
+  --c-sub: #e4e4e7;
+  --c-mute: #a1a1aa;
+  --c-faint: #71717a;
+  --c-line: #ffffff1a;
+  --c-line-strong: #ffffff26;
+  --c-accent: #7c3aed;
+  --c-accent-soft: #a78bfa;
+  --c-ok: #00a544;
+  --c-warn: #f05100;
+  --c-bad: #e40014;
+}
+
 @layer base {
-  :root {
-    --background: #090d16;
-    --foreground: #f1f5f9;
+  html,
+  body {
+    background-color: var(--c-canvas);
+    color: var(--c-ink);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--c-canvas);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--c-elevated);
+    border: 1px solid var(--c-line);
+    border-radius: 999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--c-accent);
   }
 }
 
-body {
-  background-color: #07090e;
-  color: #f1f5f9;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  overflow-x: hidden;
-  min-height: 100vh;
-}
-
-/* Custom sleek scrollbar for episode lists and carousels */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #0b0f19;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

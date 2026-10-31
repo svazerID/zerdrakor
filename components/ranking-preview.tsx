@@ -31,22 +31,22 @@ export function RankingPreview() {
   };
 
   return (
-    <div className="w-full bg-[#0d1322] border border-slate-800/80 rounded-2xl p-5 sm:p-6 shadow-sm">
+    <div className="w-full bg-[#0d1322] border border-line/80 rounded-2xl p-5 sm:p-6 shadow-sm">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-lg bg-amber-950/70 text-amber-400 border border-amber-800/50">
+          <div className="p-2 rounded-lg bg-warn/70 text-warn border border-warn/50">
             <Trophy className="w-4 h-4" />
           </div>
           <div>
             <h2 className="text-lg font-bold text-white">Peringkat Drakor Terpopuler</h2>
-            <p className="text-xs text-slate-400">Drama Korea paling banyak ditonton pemirsa</p>
+            <p className="text-xs text-mute">Drama Korea paling banyak ditonton pemirsa</p>
           </div>
         </div>
 
         <Link
           href="/peringkat"
-          className="text-xs font-semibold text-rose-400 hover:text-rose-300 flex items-center gap-1 group self-start sm:self-auto"
+          className="text-xs font-semibold text-accent-soft hover:text-accent-soft flex items-center gap-1 group self-start sm:self-auto"
         >
           <span>Papan Peringkat Lengkap</span>
           <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -54,15 +54,15 @@ export function RankingPreview() {
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-1.5 p-1 bg-slate-900/90 rounded-xl border border-slate-800 mb-5 overflow-x-auto scrollbar-none">
+      <div className="flex items-center gap-1.5 p-1 bg-elevated/90 rounded-xl border border-line mb-5 overflow-x-auto scrollbar-none">
         {(['daily', 'weekly', 'monthly', 'all_time'] as RankingPeriod[]).map((p) => (
           <button
             key={p}
             onClick={() => setPeriod(p)}
             className={`flex-1 min-w-[90px] py-1.5 px-3 rounded-lg text-xs font-medium transition-all text-center whitespace-nowrap ${
               period === p
-                ? 'bg-rose-600 text-white font-bold shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-accent text-white font-bold shadow-sm'
+                : 'text-mute hover:text-white'
             }`}
           >
             {periodLabels[p]}
@@ -71,7 +71,7 @@ export function RankingPreview() {
       </div>
 
       {/* Ranking List */}
-      <div className="divide-y divide-slate-800/60">
+      <div className="divide-y divide-line/60">
         {rankings.map((item) => {
           const drama = item.drakor || item.donghua;
           if (!drama) return null;
@@ -80,26 +80,26 @@ export function RankingPreview() {
             <Link
               key={item.id}
               href={`/donghua/${drama.slug}`}
-              className="flex items-center justify-between py-2.5 px-2 rounded-xl hover:bg-slate-900/80 transition-colors group"
+              className="flex items-center justify-between py-2.5 px-2 rounded-xl hover:bg-elevated/80 transition-colors group"
             >
               <div className="flex items-center gap-3.5 min-w-0">
                 {/* Rank Badge */}
                 <div
                   className={`w-7 h-7 rounded-lg flex items-center justify-center font-bold text-xs shrink-0 tabular-nums ${
                     item.rank === 1
-                      ? 'bg-amber-400 text-slate-950 shadow-md shadow-amber-400/20'
+                      ? 'bg-warn text-canvas shadow-md shadow-warn/20'
                       : item.rank === 2
-                      ? 'bg-slate-300 text-slate-950'
+                      ? 'bg-sub text-canvas'
                       : item.rank === 3
-                      ? 'bg-amber-700 text-white'
-                      : 'bg-slate-800 text-slate-400'
+                      ? 'bg-warn text-white'
+                      : 'bg-line text-mute'
                   }`}
                 >
                   {item.rank}
                 </div>
 
                 {/* Poster Thumbnail */}
-                <div className="w-10 h-14 rounded-lg overflow-hidden bg-slate-950 shrink-0 border border-slate-800">
+                <div className="w-10 h-14 rounded-lg overflow-hidden bg-canvas shrink-0 border border-line">
                   <img
                     src={drama.posterUrl}
                     alt={drama.title}
@@ -110,20 +110,20 @@ export function RankingPreview() {
 
                 {/* Title & Metadata */}
                 <div className="min-w-0">
-                  <h4 className="font-semibold text-sm text-slate-100 group-hover:text-rose-300 transition-colors truncate">
+                  <h4 className="font-semibold text-sm text-ink group-hover:text-accent-soft transition-colors truncate">
                     {drama.title}
                   </h4>
-                  <div className="flex items-center gap-2 text-xs text-slate-400 mt-0.5">
-                    <span className="text-rose-400 font-medium">
+                  <div className="flex items-center gap-2 text-xs text-mute mt-0.5">
+                    <span className="text-accent-soft font-medium">
                       {drama.network}
                     </span>
                     <span>·</span>
-                    <span className="flex items-center gap-1 text-amber-400">
-                      <Star className="w-3 h-3 fill-amber-400" />
+                    <span className="flex items-center gap-1 text-warn">
+                      <Star className="w-3 h-3 fill-warn" />
                       {drama.rating}
                     </span>
                     <span>·</span>
-                    <span className="flex items-center gap-1 text-slate-400">
+                    <span className="flex items-center gap-1 text-mute">
                       <Eye className="w-3 h-3" />
                       {formatViews(item.viewCount)}
                     </span>
@@ -131,7 +131,7 @@ export function RankingPreview() {
                 </div>
               </div>
 
-              <div className="text-slate-500 group-hover:text-rose-400 pl-2 shrink-0">
+              <div className="text-faint group-hover:text-accent-soft pl-2 shrink-0">
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </div>
             </Link>

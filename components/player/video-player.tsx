@@ -175,8 +175,8 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
       {/* Main Player Box */}
       <div
         id="player-container"
-        className={`relative bg-black rounded-2xl overflow-hidden border border-slate-800 shadow-2xl transition-all ${
-          isCinemaMode ? 'relative z-50 shadow-cyan-900/40 ring-2 ring-cyan-500/40' : ''
+        className={`relative bg-black rounded-2xl overflow-hidden border border-line shadow-2xl transition-all ${
+          isCinemaMode ? 'relative z-50 shadow-accent/40 ring-2 ring-accent/40' : ''
         }`}
       >
         <div className="relative aspect-video w-full flex items-center justify-center bg-[#05070c]">
@@ -207,13 +207,13 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
           ) : (
             /* Error & Unavailable State */
             <div className="flex flex-col items-center justify-center p-6 text-center max-w-md mx-auto">
-              <div className="w-14 h-14 rounded-full bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 mb-3">
+              <div className="w-14 h-14 rounded-full bg-accent/10 border border-accent/30 flex items-center justify-center text-accent-soft mb-3">
                 <AlertCircle className="w-7 h-7" />
               </div>
               <h3 className="text-base font-bold text-white mb-1">
                 {isSimulatedUnavailable ? 'Simulasi Server Offline' : 'Video Tidak Dapat Diputar'}
               </h3>
-              <p className="text-xs text-slate-400 mb-4 leading-relaxed">
+              <p className="text-xs text-mute mb-4 leading-relaxed">
                 {errorMessage ||
                   'Sumber video pada server saat ini sedang mengalami gangguan atau tautan tidak tersedia. Silakan ganti ke Server Alternatif lain.'}
               </p>
@@ -221,7 +221,7 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
               <div className="flex items-center gap-2 flex-wrap justify-center">
                 <button
                   onClick={handleRetryVideo}
-                  className="px-3.5 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                  className="px-3.5 py-2 rounded-lg bg-accent hover:bg-accent text-white text-xs font-semibold flex items-center gap-1.5 transition-colors"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
                   <span>Muat Ulang Video</span>
@@ -234,7 +234,7 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
                       setHasError(false);
                       setIsSimulatedUnavailable(false);
                     }}
-                    className="px-3.5 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold transition-colors"
+                    className="px-3.5 py-2 rounded-lg bg-line hover:bg-line-strong text-sub text-xs font-semibold transition-colors"
                   >
                     Ganti Server Alternatif
                   </button>
@@ -246,21 +246,21 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
           {/* Loading Indicator */}
           {isLoading && !isErrorState && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-xs pointer-events-none">
-              <div className="w-10 h-10 border-3 border-cyan-500 border-t-transparent rounded-full animate-spin" />
+              <div className="w-10 h-10 border-3 border-accent border-t-transparent rounded-full animate-spin" />
             </div>
           )}
 
           {/* Top Info Bar inside Player */}
           <div className="absolute top-0 inset-x-0 p-4 bg-gradient-to-b from-black/80 to-transparent flex items-center justify-between text-white text-xs opacity-0 hover:opacity-100 focus-within:opacity-100 transition-opacity pointer-events-auto">
             <div className="flex items-center gap-2 truncate">
-              <span className="font-bold text-cyan-400">{donghua.title}</span>
+              <span className="font-bold text-accent-soft">{donghua.title}</span>
               <span>·</span>
-              <span className="text-slate-300">Episode {episode.episodeNumber}</span>
+              <span className="text-sub">Episode {episode.episodeNumber}</span>
               <span>·</span>
-              <span className="text-emerald-400">Sub Indo</span>
+              <span className="text-ok">Sub Indo</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="px-2 py-0.5 rounded bg-black/60 border border-slate-700 text-[11px] text-cyan-300">
+              <span className="px-2 py-0.5 rounded bg-black/60 border border-line-strong text-[11px] text-accent-soft">
                 {selectedSource.quality}
               </span>
             </div>
@@ -278,7 +278,7 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
                   value={currentTime}
                   onChange={handleSeek}
                   aria-label="Progress video"
-                  className="w-full h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                  className="w-full h-1.5 bg-line-strong rounded-lg appearance-none cursor-pointer accent-accent"
                 />
               </div>
 
@@ -309,11 +309,11 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
                       value={isMuted ? 0 : volume}
                       onChange={handleVolumeChange}
                       aria-label="Volume suara"
-                      className="w-16 h-1 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-cyan-400"
+                      className="w-16 h-1 bg-line-strong rounded-lg appearance-none cursor-pointer accent-accent"
                     />
                   </div>
 
-                  <span className="text-[11px] text-slate-300 font-mono tabular-nums">
+                  <span className="text-[11px] text-sub font-mono tabular-nums">
                     {formatPlayerTime(currentTime)} / {formatPlayerTime(duration)}
                   </span>
                 </div>
@@ -328,7 +328,7 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
                       if (videoRef.current) videoRef.current.playbackRate = speed;
                     }}
                     aria-label="Kecepatan putar"
-                    className="bg-black/60 border border-slate-700 text-slate-300 rounded px-1.5 py-0.5 text-[11px] outline-none cursor-pointer"
+                    className="bg-black/60 border border-line-strong text-sub rounded px-1.5 py-0.5 text-[11px] outline-none cursor-pointer"
                   >
                     <option value="0.75">0.75x</option>
                     <option value="1">1.0x (Normal)</option>
@@ -343,7 +343,7 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
                     aria-label="Mode bioskop"
                     title={isCinemaMode ? 'Nyalakan Lampu' : 'Matikan Lampu (Mode Bioskop)'}
                     className={`p-1.5 rounded hover:bg-white/10 transition-colors ${
-                      isCinemaMode ? 'text-amber-400' : 'text-slate-300'
+                      isCinemaMode ? 'text-warn' : 'text-sub'
                     }`}
                   >
                     <Lightbulb className="w-4 h-4" />
@@ -355,7 +355,7 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
                     aria-label="Mode teater"
                     title={isTheater ? 'Mode Normal' : 'Mode Teater (Lebar)'}
                     className={`p-1.5 rounded hover:bg-white/10 transition-colors ${
-                      isTheater ? 'text-cyan-400' : 'text-slate-300'
+                      isTheater ? 'text-accent-soft' : 'text-sub'
                     }`}
                   >
                     <Tv className="w-4 h-4" />
@@ -377,19 +377,19 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
         </div>
 
         {/* Video Player Sub-Bar: Server Picker, Subtitles, Episode Nav, & Simulation Toggle */}
-        <div className="bg-[#0b101c] p-3.5 border-t border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
+        <div className="bg-[#0b101c] p-3.5 border-t border-line flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
           {/* Episode Navigation */}
           <div className="flex items-center gap-2">
             {prevEpisode ? (
               <Link
                 href={`/watch/${donghua.slug}/${prevEpisode.episodeNumber}`}
-                className="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700/80 hover:bg-slate-800 text-slate-200 font-medium flex items-center gap-1 transition-colors"
+                className="px-3 py-1.5 rounded-lg bg-elevated border border-line-strong/80 hover:bg-line text-sub font-medium flex items-center gap-1 transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
                 <span>Ep {prevEpisode.episodeNumber}</span>
               </Link>
             ) : (
-              <span className="px-3 py-1.5 rounded-lg bg-slate-900/40 border border-slate-800 text-slate-600 font-medium flex items-center gap-1 cursor-not-allowed">
+              <span className="px-3 py-1.5 rounded-lg bg-elevated/40 border border-line text-faint font-medium flex items-center gap-1 cursor-not-allowed">
                 <ChevronLeft className="w-4 h-4" />
                 <span>Ep Awal</span>
               </span>
@@ -402,13 +402,13 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
             {nextEpisode ? (
               <Link
                 href={`/watch/${donghua.slug}/${nextEpisode.episodeNumber}`}
-                className="px-3 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-medium flex items-center gap-1 transition-colors"
+                className="px-3 py-1.5 rounded-lg bg-accent hover:bg-accent text-white font-medium flex items-center gap-1 transition-colors"
               >
                 <span>Ep {nextEpisode.episodeNumber}</span>
                 <ChevronRight className="w-4 h-4" />
               </Link>
             ) : (
-              <span className="px-3 py-1.5 rounded-lg bg-slate-900/40 border border-slate-800 text-slate-600 font-medium flex items-center gap-1 cursor-not-allowed">
+              <span className="px-3 py-1.5 rounded-lg bg-elevated/40 border border-line text-faint font-medium flex items-center gap-1 cursor-not-allowed">
                 <span>Ep Akhir</span>
                 <ChevronRight className="w-4 h-4" />
               </span>
@@ -417,11 +417,11 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
 
           {/* Server Switcher */}
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-slate-400 font-medium flex items-center gap-1">
-              <Layers className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="text-mute font-medium flex items-center gap-1">
+              <Layers className="w-3.5 h-3.5 text-accent-soft" />
               Server:
             </span>
-            <div className="flex items-center gap-1 bg-slate-900 p-0.5 rounded-lg border border-slate-800">
+            <div className="flex items-center gap-1 bg-elevated p-0.5 rounded-lg border border-line">
               {episode.videoSources.map((source) => (
                 <button
                   key={source.id}
@@ -432,8 +432,8 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
                   }}
                   className={`px-2.5 py-1 rounded text-[11px] font-medium transition-all ${
                     selectedSource.id === source.id
-                      ? 'bg-cyan-500 text-slate-950 font-bold shadow-xs'
-                      : 'text-slate-300 hover:text-white'
+                      ? 'bg-accent text-white font-bold shadow-xs'
+                      : 'text-sub hover:text-white'
                   }`}
                 >
                   {source.quality} · {source.name.split(' ')[1] || 'HD'}
@@ -442,14 +442,14 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
             </div>
 
             {/* Subtitle toggle */}
-            <div className="flex items-center gap-1 text-[11px] text-slate-400 ml-2">
-              <Subtitles className="w-3.5 h-3.5 text-emerald-400" />
+            <div className="flex items-center gap-1 text-[11px] text-mute ml-2">
+              <Subtitles className="w-3.5 h-3.5 text-ok" />
               <button
                 onClick={() => setActiveSubtitle(activeSubtitle === 'id' ? 'off' : 'id')}
                 className={`px-2 py-0.5 rounded border ${
                   activeSubtitle === 'id'
-                    ? 'bg-emerald-950/80 text-emerald-300 border-emerald-700/60'
-                    : 'bg-slate-900 text-slate-400 border-slate-800'
+                    ? 'bg-ok/20 text-ok border-ok/60'
+                    : 'bg-elevated text-mute border-line'
                 }`}
               >
                 {activeSubtitle === 'id' ? 'Sub Indo (Aktif)' : 'Sub Mati'}
@@ -463,7 +463,7 @@ function VideoPlayerCore({ donghua, episode, prevEpisode, nextEpisode }: VideoPl
                 setErrorMessage('Server sedang dalam perawatan berkala atau video gagal dimuat.');
               }}
               title="Uji coba tampilan bila video tidak tersedia"
-              className="text-[11px] text-slate-400 hover:text-slate-300 underline underline-offset-2 ml-1"
+              className="text-[11px] text-mute hover:text-sub underline underline-offset-2 ml-1"
             >
               {isSimulatedUnavailable ? 'Normal' : 'Simulasi Offline'}
             </button>
